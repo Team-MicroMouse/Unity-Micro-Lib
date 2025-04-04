@@ -33,4 +33,4 @@
 
 .vs
 .idea
-x64
+cmake-build-debug
