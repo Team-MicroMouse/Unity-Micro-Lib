@@ -6,10 +6,7 @@
 #define INTERFACE_H
 
 #include <cstdint>
-
-struct Object {
-	int32_t handle;
-};
+#include "../com/com.h"
 
 struct IExtractableData {
 };
@@ -17,11 +14,11 @@ struct IExtractableData {
 struct IMotorController {
 };
 
-struct Sensor : Object {
+struct Sensor : Microsim::Object {
 	int32_t ReadValue();
 };
 
-struct Motor : Object {
+struct Motor : Microsim::Object {
 	int8_t CurrentThrottle();
 	void SetThrottle(int8_t throttle);
 };

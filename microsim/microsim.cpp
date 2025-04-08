@@ -2,7 +2,7 @@
 // Created by Jeroen on 3-4-2025.
 //
 
-#include "interface.h"
+#include "microsim.h"
 #include "../com/com.h"
 
 int32_t Sensor::ReadValue() {
