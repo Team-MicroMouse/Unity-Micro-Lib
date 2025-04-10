@@ -46,6 +46,13 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	GetFunction = getFunction;
 	nativeObjectList = static_cast<Plugin::CreateNativeObject *>(calloc(1024, sizeof(Plugin::CreateNativeObject)));
 
+	/* Registering plugin data */
+
+	Plugin::RegisterData = *reinterpret_cast<void (**)(const char*, const char*)>(GetFunction("Plugin::RegisterData"));
+	Plugin::RegisterData("TestLib", "0.0.1");
+
+	/* Registering functions */
+
 	UnityEngine::Log = *reinterpret_cast<void (**)(const char *)>(GetFunction("UnityEngine::Log"));
 	UnityEngine::Log("Gathering Simulator Functions");
 
@@ -57,13 +64,20 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	Microsim::Motor_CurrentThrottle = *reinterpret_cast<int8_t (**)(uint32_t)>(GetFunction("Microsim::Sensor_ReadValue"));
 	Microsim::Motor_SetThrottle = *reinterpret_cast<void (**)(uint32_t, int8_t)>(GetFunction("Microsim::Sensor_ReadValue"));
 
+	/* Registering objects */
+
 	UnityEngine::Log("Registering Native Objects");
 
 	registerObject<TestObjectDetector>(Plugin::NativeObjectType::ObjectDetector, "Test Object Detector");
 
+	/* Some test */
+
 	Sensor sensor;
 	sensor.handle = 0;
 	UnityEngine::Logi("Reading sensor value", sensor.ReadValue());
+
+	/* Finishing up */
+
 	UnityEngine::Log("Successfully loaded C++ Test Plugin");
 }
 

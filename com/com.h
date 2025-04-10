@@ -45,6 +45,7 @@ namespace Plugin {
 		const char* name;
 	};
 
+	inline void (*RegisterData)(const char* name, const char* version);
 	inline void (*RegisterType)(NativeObjectFactory factory);
 }
 
