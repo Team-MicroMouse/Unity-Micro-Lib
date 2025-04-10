@@ -2,12 +2,9 @@
 #define COM_H
 #include <cstdint>
 #include <functional>
-#include <list>
 
 #include "../macros.h"
 #include "../algorithms/algorithms.h"
-
-inline std::list<void*> memory;
 
 //
 // Native functions for C++ to call in C#
@@ -30,6 +27,7 @@ namespace Microsim {
 // Interacting with the engine
 namespace UnityEngine {
 	inline void (*Log)(const char* message);
+	inline void (*Logi)(const char* message, int value);
 };
 
 // Interacting with the plugin
@@ -55,14 +53,13 @@ namespace Plugin {
 //
 
 namespace Plugin {
-	DLLEXPORT void* Plugin_CreateObject(uint32_t size);
+	DLLEXPORT void* Plugin_CreateObject(uint32_t idx);
 	DLLEXPORT void Plugin_DeleteObject(void* handle);
 }
 
 namespace Microsim {
 	DLLEXPORT void Algorithm_Setup(IAlgorithm* ptr, void* data);
-
-	DLLEXPORT void ObjectDetector_Process(void* ptr, int* map, int mapSize);
+	DLLEXPORT void ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, int* map, int mapSize);
 }
 
 //

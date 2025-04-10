@@ -1,9 +1,9 @@
 #ifndef ALGORITHMS_H
 #define ALGORITHMS_H
 
-struct  IAlgorithm {
+struct IAlgorithm {
+	virtual ~IAlgorithm() = default;
 	virtual void Setup(void*) = 0;
-	virtual ~IAlgorithm() {}
 };
 
 struct IObjectDetectorAlgorithm : IAlgorithm {
