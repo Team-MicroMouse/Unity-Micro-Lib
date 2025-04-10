@@ -67,5 +67,6 @@ namespace Microsim {
 //
 
 DLLEXPORT void Init(uint8_t* (*getFunction)(const char* name));
+DLLEXPORT void Destroy();
 
 #endif //COM_H

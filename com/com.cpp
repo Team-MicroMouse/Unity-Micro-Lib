@@ -1,13 +1,17 @@
 #include "com.h"
 
 #include <cstdlib>
+#include <list>
 #include <string>
 
 #include "../algorithms/algorithms.h"
 #include "../microsim/microsim.h"
 
+Plugin::CreateNativeObject* nativeObjectList;
+int nativeObjectListPtr;
+
 void* Plugin::Plugin_CreateObject(const uint32_t idx) {
-	return nullptr;
+	return nativeObjectList[idx]();
 }
 
 void Plugin::Plugin_DeleteObject(void* handle) {
@@ -22,19 +26,25 @@ void Microsim::Algorithm_Setup(IAlgorithm* algorithm, void *data) {
 	}
 }
 
-void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, int *map, int mapSize) {
-
+void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, int *map, int mapSize) {
+	if (algorithm == nullptr) {
+		UnityEngine::Log("Nullptr in ObjectDetector_Process");
+	} else {
+		algorithm->Process(map, mapSize);
+	}
 }
 
 template<typename T> void registerObject(const Plugin::NativeObjectType type, const char* name) {
 	const Plugin::CreateNativeObject fn = [&] { return new T(); };
-	// const uint32_t idx = COL->size();
-	Plugin::RegisterType(Plugin::NativeObjectFactory {type, 0, typeid(T).name(), name });
-	// COL->push_back(fn);
+	const uint32_t idx = nativeObjectListPtr;
+	nativeObjectList[nativeObjectListPtr] = fn;
+	Plugin::RegisterType(Plugin::NativeObjectFactory {type, idx, typeid(T).name(), name });
+	nativeObjectListPtr++;
 }
 
 void Init(uint8_t* (*getFunction)(const char* name)) {
 	GetFunction = getFunction;
+	nativeObjectList = static_cast<Plugin::CreateNativeObject *>(calloc(1024, sizeof(Plugin::CreateNativeObject)));
 
 	UnityEngine::Log = *reinterpret_cast<void (**)(const char *)>(GetFunction("UnityEngine::Log"));
 	UnityEngine::Log("Gathering Simulator Functions");
@@ -55,4 +65,8 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	sensor.handle = 0;
 	UnityEngine::Logi("Reading sensor value", sensor.ReadValue());
 	UnityEngine::Log("Successfully loaded C++ Test Plugin");
+}
+
+void Destroy() {
+	free(nativeObjectList);
 }

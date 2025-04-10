@@ -4,11 +4,11 @@ project(Unity_Link_Test)
 set(CMAKE_CXX_STANDARD 20)
 
 add_library(Unity_Link_Test SHARED library.cpp
-        com/com.h
         com/com.cpp
-        microsim/microsim.h
         microsim/microsim.cpp
-        algorithms/algorithms.h
         algorithms/algorithms.cpp
         algorithms/testObjectDetector.cpp
+        algorithms/data/data.cpp
+        microsim/data/data.cpp
+        microsim/data/data.h
 )
