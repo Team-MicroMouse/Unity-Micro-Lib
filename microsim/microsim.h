@@ -6,21 +6,60 @@
 #define INTERFACE_H
 
 #include <cstdint>
-#include "../com/com.h"
+#include "../types/types.h"
 
-struct IExtractableData {
-};
+namespace Microsim {
+	struct Robot;
 
-struct IMotorController {
-};
+	struct Object {
+		uint32_t handle;
+	};
 
-struct Sensor : Microsim::Object {
-	int32_t ReadValue();
-};
+	/* Interfaces */
 
-struct Motor : Microsim::Object {
-	int8_t CurrentThrottle();
-	void SetThrottle(int8_t throttle);
-};
+	struct IExtractableData {
+	};
+
+	struct IMotorController {
+	};
+
+	/* Sensors & Motors */
+
+	struct Sensor_i32 : Object {
+		int32_t ReadValue() const;
+	};
+
+	struct Sensor_f32 : Object {
+		float ReadValue() const;
+	};
+
+	struct Sensor_v3i : Object {
+		  v3i ReadValue() const;
+	};
+
+	struct Motor : Object {
+		int8_t CurrentThrottle() const;
+		void SetThrottle(int8_t throttle) const;
+	};
+
+	struct IFindableComponent : Object {
+		Sensor_i32 ToSensor_i32() const;
+		Sensor_f32 ToSensor_f32() const;
+		Sensor_v3i ToSensor_v3i() const;
+		Motor ToMotor() const;
+	};
+
+	/* Data Types */
+
+	struct ComponentReference {
+		Guid serializableGuid;
+	};
+
+	/* Components */
+
+	struct Robot : Object {
+		IFindableComponent FindComponent(Guid serializableGuid) const;
+	};
+}
 
 #endif //INTERFACE_H

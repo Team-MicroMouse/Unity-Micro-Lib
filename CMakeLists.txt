@@ -8,4 +8,6 @@ add_library(Unity_Link_Test SHARED library.cpp
         microsim/microsim.cpp
         algorithms/algorithms.cpp
         algorithms/testObjectDetector.cpp
+        types/types.cpp
+        types/types.h
 )

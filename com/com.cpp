@@ -1,32 +1,32 @@
 #include "com.h"
 
 #include <cstdlib>
-#include <list>
-#include <string>
+#include <iostream>
 
 #include "../algorithms/algorithms.h"
 #include "../microsim/microsim.h"
 
-Plugin::CreateNativeObject* nativeObjectList;
+Plugin::CreateNativeObject* nativeObjectConstructorList;
 int nativeObjectListPtr;
 
 void* Plugin::Plugin_CreateObject(const uint32_t idx) {
-	return nativeObjectList[idx]();
+	return nativeObjectConstructorList[idx]();
 }
 
 void Plugin::Plugin_DeleteObject(void* handle) {
 	free(handle);
 }
 
-void Microsim::Algorithm_Setup(IAlgorithm* algorithm, void *data) {
+void Microsim::ObjectDetector_Setup(IObjectDetectorAlgorithm* algorithm, uint32_t robotHandle, void* data) {
 	if (algorithm == nullptr) {
 		UnityEngine::Log("Nullptr in setup");
 	} else {
-		algorithm->Setup(data);
+		Robot robot = { robotHandle };
+		algorithm->Setup(robot, data);
 	}
 }
 
-void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, int *map, int mapSize) {
+void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, int *map, v2i mapSize) {
 	if (algorithm == nullptr) {
 		UnityEngine::Log("Nullptr in ObjectDetector_Process");
 	} else {
@@ -37,14 +37,14 @@ void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, int *
 template<typename T> void registerObject(const Plugin::NativeObjectType type, const char* name) {
 	const Plugin::CreateNativeObject fn = [&] { return new T(); };
 	const uint32_t idx = nativeObjectListPtr;
-	nativeObjectList[nativeObjectListPtr] = fn;
+	nativeObjectConstructorList[nativeObjectListPtr] = fn;
 	Plugin::RegisterType(Plugin::NativeObjectFactory {type, idx, typeid(T).name(), name });
 	nativeObjectListPtr++;
 }
 
 void Init(uint8_t* (*getFunction)(const char* name)) {
 	GetFunction = getFunction;
-	nativeObjectList = static_cast<Plugin::CreateNativeObject *>(calloc(1024, sizeof(Plugin::CreateNativeObject)));
+	nativeObjectConstructorList = static_cast<Plugin::CreateNativeObject *>(calloc(1024, sizeof(Plugin::CreateNativeObject)));
 
 	/* Registering plugin data */
 
@@ -60,9 +60,12 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 
 	Plugin::RegisterType = *reinterpret_cast<void (**)(Plugin::NativeObjectFactory)>(GetFunction("Plugin::RegisterType"));
 
-	Microsim::Sensor_ReadValue = *reinterpret_cast<int32_t (**)(uint32_t)>(GetFunction("Microsim::Sensor_ReadValue"));
-	Microsim::Motor_CurrentThrottle = *reinterpret_cast<int8_t (**)(uint32_t)>(GetFunction("Microsim::Sensor_ReadValue"));
-	Microsim::Motor_SetThrottle = *reinterpret_cast<void (**)(uint32_t, int8_t)>(GetFunction("Microsim::Sensor_ReadValue"));
+	Microsim::Sensor_i32_ReadValue = *reinterpret_cast<int32_t (**)(uint32_t)>(GetFunction("Microsim::Sensor_i32_ReadValue"));
+	Microsim::Sensor_f32_ReadValue = *reinterpret_cast<float (**)(uint32_t)>(GetFunction("Microsim::Sensor_f32_ReadValue"));
+	Microsim::Sensor_v3i_ReadValue = *reinterpret_cast<v3i (**)(uint32_t)>(GetFunction("Microsim::Sensor_v3i_ReadValue"));
+	Microsim::Motor_CurrentThrottle = *reinterpret_cast<int8_t (**)(uint32_t)>(GetFunction("Microsim::Motor_CurrentThrottle"));
+	Microsim::Motor_SetThrottle = *reinterpret_cast<void (**)(uint32_t, int8_t)>(GetFunction("Microsim::Motor_SetThrottle"));
+	Microsim::Robot_FindComponent = *reinterpret_cast<uint32_t (**)(uint32_t, Guid)>(GetFunction("Microsim::Robot_FindComponent"));
 
 	/* Registering objects */
 
@@ -70,17 +73,11 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 
 	registerObject<TestObjectDetector>(Plugin::NativeObjectType::ObjectDetector, "Test Object Detector");
 
-	/* Some test */
-
-	Sensor sensor;
-	sensor.handle = 0;
-	UnityEngine::Logi("Reading sensor value", sensor.ReadValue());
-
 	/* Finishing up */
 
 	UnityEngine::Log("Successfully loaded C++ Test Plugin");
 }
 
 void Destroy() {
-	free(nativeObjectList);
+	free(nativeObjectConstructorList);
 }

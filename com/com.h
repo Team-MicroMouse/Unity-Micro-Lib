@@ -5,6 +5,7 @@
 
 #include "../macros.h"
 #include "../algorithms/algorithms.h"
+#include "../types/types.h"
 
 //
 // Native functions for C++ to call in C#
@@ -14,14 +15,14 @@ inline uint8_t* (*GetFunction)(const char* name);
 
 // Interacting with the world
 namespace Microsim {
-	struct Object {
-		uint32_t handle;
-	};
-
-	inline int32_t (*Sensor_ReadValue)(uint32_t sensor);
+	inline int32_t (*Sensor_i32_ReadValue)(uint32_t sensor);
+	inline float (*Sensor_f32_ReadValue)(uint32_t sensor);
+	inline v3i (*Sensor_v3i_ReadValue)(uint32_t sensor);
 
 	inline int8_t (*Motor_CurrentThrottle)(uint32_t motor);
 	inline void (*Motor_SetThrottle)(uint32_t motor, int8_t throttle);
+
+	inline uint32_t (*Robot_FindComponent)(uint32_t handle, Guid guid);
 };
 
 // Interacting with the engine
@@ -59,8 +60,8 @@ namespace Plugin {
 }
 
 namespace Microsim {
-	DLLEXPORT void Algorithm_Setup(IAlgorithm* ptr, void* data);
-	DLLEXPORT void ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, int* map, int mapSize);
+	DLLEXPORT void ObjectDetector_Setup(IObjectDetectorAlgorithm* ptr, uint32_t robotHandle, void* data);
+	DLLEXPORT void ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, int* map, v2i mapSize);
 }
 
 //
