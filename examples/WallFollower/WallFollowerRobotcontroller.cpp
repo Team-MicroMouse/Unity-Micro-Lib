@@ -99,6 +99,7 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
 
             if (fwd == 0 || fwd > 60) {
                 targetPos = (gridPos + v2f::fromAngle(robotPosition.angle).explode().normalize()).roundToV2i() * 180;
+                UnityEngine::Log("Forward");
             } else {
                 int r = static_cast<int>(round(static_cast<double>(rand()) / RAND_MAX));
                 // probably possible in 1 calculation w/0 any statements
@@ -128,7 +129,7 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
             }
 
             targetDir = targetPos - robotPosition.position;
-            motorController->RotateDegrees(static_cast<int>(std::round(std::atan2(targetDir.y, targetDir.x) * DEG2RAD)));
+            motorController->RotateDegrees(static_cast<int>(std::round(std::atan2(targetDir.y, targetDir.x) * RAD2DEG)));
             UnityEngine::LogV2i("Target Dir:", targetDir);
             UnityEngine::Log("Rotating");
             state = Rotating;
