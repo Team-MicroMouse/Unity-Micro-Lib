@@ -4,6 +4,8 @@
 #include <iostream>
 
 #include "../algorithms/algorithms.h"
+#include "../examples/SimpleObjectDetector/SimpleObjectDetector.h"
+#include "../examples/WallFollower/WallFollowerRobotcontroller.h"
 #include "../microsim/microsim.h"
 
 Plugin::CreateNativeObject* nativeObjectConstructorList;
@@ -21,7 +23,7 @@ void Microsim::ObjectDetector_Setup(IObjectDetectorAlgorithm* algorithm, uint32_
 	if (algorithm == nullptr) {
 		UnityEngine::Log("Nullptr in setup");
 	} else {
-		Robot robot = { robotHandle };
+		const Robot robot = { robotHandle };
 		algorithm->Setup(robot, data);
 	}
 }
@@ -31,6 +33,23 @@ void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, int *
 		UnityEngine::Log("Nullptr in ObjectDetector_Process");
 	} else {
 		algorithm->Process(map, mapSize);
+	}
+}
+
+void Microsim::RobotController_Setup(IRobotController* robotController, uint32_t robotHandle, void* data) {
+	if (robotController == nullptr) {
+		UnityEngine::Log("Nullptr in RobotController_Setup");
+	} else {
+		const Robot robot = { robotHandle };
+		robotController->Setup(robot, data);
+	}
+}
+
+void Microsim::RobotController_Loop(IRobotController* robotController, float dtf) {
+	if (robotController == nullptr) {
+		UnityEngine::Log("Nullptr in RobotController_Process");
+	} else {
+		robotController->Loop(dtf);
 	}
 }
 
@@ -57,6 +76,9 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	UnityEngine::Log("Gathering Simulator Functions");
 
 	UnityEngine::Logi = *reinterpret_cast<void (**)(const char *, int)>(GetFunction("UnityEngine::Logi"));
+	UnityEngine::Logf = *reinterpret_cast<void (**)(const char *, float)>(GetFunction("UnityEngine::Logf"));
+	UnityEngine::LogV2f = *reinterpret_cast<void (**)(const char *, v2f)>(GetFunction("UnityEngine::LogV2f"));
+	UnityEngine::LogV2i = *reinterpret_cast<void (**)(const char *, v2i)>(GetFunction("UnityEngine::LogV2i"));
 
 	Plugin::RegisterType = *reinterpret_cast<void (**)(Plugin::NativeObjectFactory)>(GetFunction("Plugin::RegisterType"));
 
@@ -67,11 +89,29 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	Microsim::Motor_SetThrottle = *reinterpret_cast<void (**)(uint32_t, int8_t)>(GetFunction("Microsim::Motor_SetThrottle"));
 	Microsim::Robot_FindComponent = *reinterpret_cast<uint32_t (**)(uint32_t, Guid)>(GetFunction("Microsim::Robot_FindComponent"));
 
+	Microsim::SimMotorController_Setup = *reinterpret_cast<void (**)(uint32_t handle, uint32_t robotHandle, void* data)>(GetFunction("Microsim::SimMotorController_Setup"));
+	Microsim::SimMotorController_UpdateMovement = *reinterpret_cast<void (**)(uint32_t handle, float dt, RobotPosition position)>(GetFunction("Microsim::SimMotorController_UpdateMovement"));
+	Microsim::SimMotorController_GetCurrentState = *reinterpret_cast<uint32_t (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetCurrentState"));
+	Microsim::SimMotorController_GetDistanceCovered = *reinterpret_cast<float (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetDistanceCovered"));
+	Microsim::SimMotorController_GetTargetDistance = *reinterpret_cast<float (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetTargetDistance"));
+	Microsim::SimMotorController_SetGyroNull = *reinterpret_cast<void (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_SetGyroNull"));
+	Microsim::SimMotorController_SetRpm = *reinterpret_cast<void (**)(uint32_t handle, int rpm)>(GetFunction("Microsim::SimMotorController_SetRpm"));
+	Microsim::SimMotorController_MoveDistance = *reinterpret_cast<void (**)(uint32_t handle, float distance)>(GetFunction("Microsim::SimMotorController_MoveDistance"));
+	Microsim::SimMotorController_RotateToAngle = *reinterpret_cast<void (**)(uint32_t handle, int wantedAngle)>(GetFunction("Microsim::SimMotorController_RotateToAngle"));
+	Microsim::SimMotorController_RotateDegrees = *reinterpret_cast<void (**)(uint32_t handle, int degrees)>(GetFunction("Microsim::SimMotorController_RotateDegrees"));
+
+	Microsim::SimPositionTracker_Setup = *reinterpret_cast<void (**)(uint32_t handle, uint32_t robotHandle, void* data)>(GetFunction("Microsim::SimPositionTracker_Setup"));
+	Microsim::SimPositionTracker_Process = *reinterpret_cast<void (**)(uint32_t handle, RobotPosition* robotPosition)>(GetFunction("Microsim::SimPositionTracker_Process"));
+
+	Microsim::CreateSimulatorAlgorithm = *reinterpret_cast<uint32_t (**)(const char*)>(GetFunction("Microsim::CreateSimulatorAlgorithm"));
+	Microsim::FreeSimulatorAlgorithm = *reinterpret_cast<void (**)(uint32_t handle)>(GetFunction("Microsim::FreeSimulatorAlgorithm"));
+
 	/* Registering objects */
 
 	UnityEngine::Log("Registering Native Objects");
 
-	registerObject<TestObjectDetector>(Plugin::NativeObjectType::ObjectDetector, "Test Object Detector");
+	registerObject<SimpleObjectDetector>(Plugin::ObjectDetector, "Simple Object Detector");
+	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 
 	/* Finishing up */
 

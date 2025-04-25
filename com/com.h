@@ -23,18 +23,39 @@ namespace Microsim {
 	inline void (*Motor_SetThrottle)(uint32_t motor, int8_t throttle);
 
 	inline uint32_t (*Robot_FindComponent)(uint32_t handle, Guid guid);
+
+	inline void (*SimMotorController_Setup)(uint32_t handle, uint32_t robotHandle, void* data);
+	inline void (*SimMotorController_UpdateMovement)(uint32_t handle, float dt, RobotPosition pos);
+	inline float (*SimMotorController_GetDistanceCovered)(uint32_t handle);
+	inline uint32_t (*SimMotorController_GetCurrentState)(uint32_t handle);
+	inline float (*SimMotorController_GetTargetDistance)(uint32_t handle);
+	inline void (*SimMotorController_SetGyroNull)(uint32_t handle);
+	inline void (*SimMotorController_SetRpm)(uint32_t handle, int rpm);
+	inline void (*SimMotorController_MoveDistance)(uint32_t handle, float distance);
+	inline void (*SimMotorController_RotateToAngle)(uint32_t handle, int wantedAngle);
+	inline void (*SimMotorController_RotateDegrees)(uint32_t handle, int degrees);
+
+	inline void (*SimPositionTracker_Setup)(uint32_t handle, uint32_t robotHandle, void* data);
+	inline void (*SimPositionTracker_Process)(uint32_t handle, RobotPosition* robotPosition);
+
+	inline uint32_t (*CreateSimulatorAlgorithm)(const char* name);
+	inline void (*FreeSimulatorAlgorithm)(uint32_t handle);
 };
 
 // Interacting with the engine
 namespace UnityEngine {
 	inline void (*Log)(const char* message);
 	inline void (*Logi)(const char* message, int value);
+	inline void (*Logf)(const char* message, float value);
+	inline void (*LogV2i)(const char* message, v2i value);
+	inline void (*LogV2f)(const char* message, v2f value);
 };
 
 // Interacting with the plugin
 namespace Plugin {
 	enum NativeObjectType : uint32_t {
-		ObjectDetector
+		ObjectDetector,
+		RobotController
 	};
 
 	typedef std::function<void*()> CreateNativeObject;
@@ -60,6 +81,9 @@ namespace Plugin {
 }
 
 namespace Microsim {
+	DLLEXPORT void RobotController_Setup(IRobotController* ptr, uint32_t robotHandle, void* data);
+	DLLEXPORT void RobotController_Loop(IRobotController* ptr, float dtf);
+
 	DLLEXPORT void ObjectDetector_Setup(IObjectDetectorAlgorithm* ptr, uint32_t robotHandle, void* data);
 	DLLEXPORT void ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, int* map, v2i mapSize);
 }

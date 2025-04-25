@@ -20,9 +20,6 @@ namespace Microsim {
 	struct IExtractableData {
 	};
 
-	struct IMotorController {
-	};
-
 	/* Sensors & Motors */
 
 	struct Sensor_i32 : Object {

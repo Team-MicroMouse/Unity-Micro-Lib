@@ -7,7 +7,12 @@ add_library(Unity_Link_Test SHARED library.cpp
         com/com.cpp
         microsim/microsim.cpp
         algorithms/algorithms.cpp
-        algorithms/testObjectDetector.cpp
         types/types.cpp
         types/types.h
+        examples/SimpleObjectDetector/SimpleObjectDetector.cpp
+        examples/SimpleObjectDetector/SimpleObjectDetector.h
+        examples/WallFollower/WallFollowerRobotcontroller.cpp
+        examples/WallFollower/WallFollowerRobotcontroller.h
+        algorithms/SimulatorMotorController.cpp
+        algorithms/SimulatorPositionTracker.cpp
 )
