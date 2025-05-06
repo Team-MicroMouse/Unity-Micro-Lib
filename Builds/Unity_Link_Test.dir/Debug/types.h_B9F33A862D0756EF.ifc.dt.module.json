@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Unity_Link_Test.dir\\Debug\\types.obj",
+            "outputs": [
+                "Unity_Link_Test.dir\\Debug\\types.h_B9F33A862D0756EF.ifc.dt.module.json",
+                "Unity_Link_Test.dir\\Debug\\types.h_B9F33A862D0756EF.ifc.dt.d.json",
+                "Unity_Link_Test.dir\\Debug\\types.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\Jeroen\\CLionProjects\\Unity Link Test\\types\\types.h",
+                    "source-path": "c:\\users\\jeroen\\clionprojects\\unity link test\\types\\types.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

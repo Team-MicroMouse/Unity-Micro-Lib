@@ -42,6 +42,7 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
 
     v2f gridPos, targetGridPos;
     v2i targetPos, targetDir;
+    int fwd, lhs, rhs;
 
     switch (state) {
         case Start:
@@ -75,7 +76,7 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
         case Rotating:
             if (motorController->GetMoveState() == IMotorController::Idle) {
                 gridPos = (robotPosition.position / 180.0f).round();
-                targetPos = ((gridPos + v2f::fromAngle(robotPosition.angle)) * 180).roundToV2i();
+                targetPos = ((gridPos + v2f::fromAngle(robotPosition.angle).explode().normalize()) * 180).roundToV2i();
                 targetDir = targetPos - robotPosition.position;
                 motorController->MoveDistance(targetDir.length());
                 UnityEngine::Log("Moving");
@@ -87,49 +88,68 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
             if (motorController->GetMoveState() == IMotorController::Idle) {
                 UnityEngine::Log("Idle");
                 state = Idle;
+                break;
             }
+
+            fwd = fwdSensor.ReadValue();
+            lhs = leftSensor.ReadValue();
+            rhs = rightSensor.ReadValue();
+
+            if ((fwd != 0 && fwd < 30) || (lhs != 0 && lhs < 30) || (rhs != 0 && rhs < 30)) {
+                UnityEngine::Log("STOP");
+                motorController->MoveDistance(0);
+                break;
+            }
+
             break;
 
         case Idle:
-            int fwd = fwdSensor.ReadValue();
-            int lhs = leftSensor.ReadValue();
-            int rhs = rightSensor.ReadValue();
+            fwd = fwdSensor.ReadValue();
+            lhs = leftSensor.ReadValue();
+            rhs = rightSensor.ReadValue();
+
+            UnityEngine::Logi("FWD", fwdSensor.ReadValue());
+            UnityEngine::Logi("LHS", leftSensor.ReadValue());
+            UnityEngine::Logi("RHS", rightSensor.ReadValue());
 
             gridPos = (robotPosition.position / 180.0f).round();
+            int roundedAngle = static_cast<int>(round(robotPosition.angle / 90.0) * 90);
 
-            if (fwd == 0 || fwd > 60) {
-                targetPos = (gridPos + v2f::fromAngle(robotPosition.angle).explode().normalize()).roundToV2i() * 180;
-                UnityEngine::Log("Forward");
+            if (fwd == 0 || fwd > 100) {
+                targetPos = (gridPos + v2f::fromAngle(roundedAngle).explode().normalize()).roundToV2i() * 180;
+                UnityEngine::Log("+0");
             } else {
                 int r = static_cast<int>(round(static_cast<double>(rand()) / RAND_MAX));
                 // probably possible in 1 calculation w/0 any statements
                 if (r == 0) {
-                    if (lhs == 0 || lhs < 60) {
-                        targetPos = (gridPos + v2f::fromAngle(robotPosition.angle - 90).explode().normalize()).roundToV2i() * 180;
+                    if (lhs == 0 || lhs > 100) {
+                        targetPos = (gridPos + v2f::fromAngle(roundedAngle - 90).explode().normalize()).roundToV2i() * 180;
                         UnityEngine::Log("-90");
-                    } else if (rhs == 0 || rhs < 60) {
-                        targetPos = (gridPos + v2f::fromAngle(robotPosition.angle + 90).explode().normalize()).roundToV2i() * 180;
+                    } else if (rhs == 0 || rhs > 100) {
+                        targetPos = (gridPos + v2f::fromAngle(roundedAngle + 90).explode().normalize()).roundToV2i() * 180;
                         UnityEngine::Log("+90");
                     } else {
-                        targetPos = (gridPos + v2f::fromAngle(robotPosition.angle + 180).explode().normalize()).roundToV2i() * 180;
+                        targetPos = (gridPos + v2f::fromAngle(roundedAngle + 180).explode().normalize()).roundToV2i() * 180;
                         UnityEngine::Log("+180");
                     }
                 } else if (r == 1) {
-                    if (rhs == 0 || rhs < 60) {
-                        targetPos = (gridPos + v2f::fromAngle(robotPosition.angle + 90).explode().normalize()).roundToV2i() * 180;
+                    if (rhs == 0 || rhs > 100) {
+                        targetPos = (gridPos + v2f::fromAngle(roundedAngle + 90).explode().normalize()).roundToV2i() * 180;
                         UnityEngine::Log("+90");
-                    } else if (lhs == 0 || lhs < 60) {
-                        targetPos = (gridPos + v2f::fromAngle(robotPosition.angle - 90).explode().normalize()).roundToV2i() * 180;
+                    } else if (lhs == 0 || lhs > 100) {
+                        targetPos = (gridPos + v2f::fromAngle(roundedAngle - 90).explode().normalize()).roundToV2i() * 180;
                         UnityEngine::Log("-90");
                     } else {
-                        targetPos = (gridPos + v2f::fromAngle(robotPosition.angle + 180).explode().normalize()).roundToV2i() * 180;
+                        targetPos = (gridPos + v2f::fromAngle(roundedAngle + 180).explode().normalize()).roundToV2i() * 180;
                         UnityEngine::Log("+180");
                     }
                 }
             }
 
             targetDir = targetPos - robotPosition.position;
-            motorController->RotateDegrees(static_cast<int>(std::round(std::atan2(targetDir.y, targetDir.x) * RAD2DEG)));
+            motorController->RotateToAngle(static_cast<int>(std::round(std::atan2(targetDir.y, targetDir.x) * RAD2DEG) + 90));
+            UnityEngine::LogV2i("Current Pos:", robotPosition.position);
+            UnityEngine::LogV2i("Target Pos:", targetPos);
             UnityEngine::LogV2i("Target Dir:", targetDir);
             UnityEngine::Log("Rotating");
             state = Rotating;

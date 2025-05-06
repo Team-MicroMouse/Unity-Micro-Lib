@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Unity_Link_Test.dir\\Debug\\SimpleObjectDetector.obj",
+            "outputs": [
+                "Unity_Link_Test.dir\\Debug\\SimpleObjectDetector.h_3B4A4B0F4996B934.ifc.dt.module.json",
+                "Unity_Link_Test.dir\\Debug\\SimpleObjectDetector.h_3B4A4B0F4996B934.ifc.dt.d.json",
+                "Unity_Link_Test.dir\\Debug\\SimpleObjectDetector.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\Jeroen\\CLionProjects\\Unity Link Test\\examples\\SimpleObjectDetector\\SimpleObjectDetector.h",
+                    "source-path": "c:\\users\\jeroen\\clionprojects\\unity link test\\examples\\simpleobjectdetector\\simpleobjectdetector.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

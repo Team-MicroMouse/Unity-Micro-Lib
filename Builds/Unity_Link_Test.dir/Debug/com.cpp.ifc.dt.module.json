@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Unity_Link_Test.dir\\Debug\\com.obj",
+            "outputs": [
+                "Unity_Link_Test.dir\\Debug\\com.cpp.ifc.dt.module.json",
+                "Unity_Link_Test.dir\\Debug\\com.cpp.ifc.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

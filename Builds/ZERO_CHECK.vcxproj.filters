@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\Builds\CMakeFiles\bce125be4426bf20d19d29543b6b5a17\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{AE2945D2-FED1-3F75-AB17-AFC7F909C865}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

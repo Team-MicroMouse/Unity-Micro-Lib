@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Unity_Link_Test.dir\\Debug\\WallFollowerRobotcontroller.obj",
+            "outputs": [
+                "C:\\Users\\Jeroen\\CLionProjects\\Unity Link Test\\Builds\\Unity_Link_Test.dir\\Debug\\vc143.pdb",
+                "Unity_Link_Test.dir\\Debug\\"
+            ],
+            "requires": []
+        }
+    ]
+}

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\library.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\com\com.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\microsim\microsim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\algorithms\algorithms.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\types\types.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\examples\SimpleObjectDetector\SimpleObjectDetector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\examples\WallFollower\WallFollowerRobotcontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\algorithms\SimulatorMotorController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\algorithms\SimulatorPositionTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\types\types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\examples\SimpleObjectDetector\SimpleObjectDetector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\examples\WallFollower\WallFollowerRobotcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Jeroen\CLionProjects\Unity Link Test\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{99C7BBE2-D690-371A-A80F-FD927D0227BE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2B46EB8D-FA0F-3A96-97F5-E8691F8EA454}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
