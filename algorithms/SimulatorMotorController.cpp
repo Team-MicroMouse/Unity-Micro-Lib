@@ -44,6 +44,7 @@ void SimulatorMotorController::MoveDistance(float distance) {
 }
 
 void SimulatorMotorController::RotateToAngle(int wantedAngle) {
+    UnityEngine::Logi("Wanted Angle:", wantedAngle);
     Microsim::SimMotorController_RotateToAngle(handle, wantedAngle);
 }
 

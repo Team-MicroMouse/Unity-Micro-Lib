@@ -7,8 +7,9 @@
 #include <cstdint>
 #include <math.h>
 
-const float DEG2RAD = M_PI / 180;
-const float RAD2DEG = 180 / M_PI;
+const float PI = 3.14159265358979323846f;
+const float DEG2RAD = PI / 180;
+const float RAD2DEG = 180 / PI;
 
 struct v2f;
 struct v2i {

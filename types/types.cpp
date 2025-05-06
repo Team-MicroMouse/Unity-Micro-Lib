@@ -33,7 +33,7 @@ v2f v2i::operator/(const float b) const {
 
 v2f v2f::fromAngle(const int angle) {
     const float rads = static_cast<float>(angle) * DEG2RAD;
-    return v2f(cos(rads), sin(rads));
+    return v2f(sin(rads), -cos(rads));
 }
 
 v2f v2f::round() const {
