@@ -129,6 +129,8 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
             }
 
             targetDir = targetPos - robotPosition.position;
+            UnityEngine::Debug::DrawRay2D(robotPosition.position.toV2f() / 1000.0, targetDir.toV2f() / 1000.0, 2, Color::green());
+            UnityEngine::Debug::DrawRay3D(targetPos.toV2f().toFlatV3f() / 1000.0, v3f(0,1,0), 2, Color::red());
             motorController->RotateDegrees(static_cast<int>(std::round(std::atan2(targetDir.y, targetDir.x) * RAD2DEG)));
             UnityEngine::LogV2i("Target Dir:", targetDir);
             UnityEngine::Log("Rotating");

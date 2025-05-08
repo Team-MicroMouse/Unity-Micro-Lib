@@ -4,6 +4,11 @@
 
 #include "../com/com.h"
 
+v2f v2i::toV2f() const
+{
+    return v2f(x,y);
+}
+
 int v2i::lengthSq() const {
     return x*x + y*y;
 }
@@ -82,4 +87,39 @@ v2f v2f::operator*(float b) const {
 
 v2f v2f::operator/(float b) const {
     return v2f(x / b, y / b);
+}
+
+v3f v2f::toFlatV3f() const
+{
+    return v3f(x,0, y);
+}
+
+v3f v3f::operator/(double b) const
+{
+    return v3f(x / b, y / b, z / b);
+}
+
+Color Color::black()
+{
+    return Color(0,0,0,1);
+}
+
+Color Color::white()
+{
+    return Color(1,1,1,1);
+}
+
+Color Color::red()
+{
+    return Color(1,0,0,1);
+}
+
+Color Color::green()
+{
+    return Color(0,1,0,1);
+}
+
+Color Color::blue()
+{
+    return Color(0,0,1,1);
 }

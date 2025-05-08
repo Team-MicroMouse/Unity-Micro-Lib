@@ -12,9 +12,12 @@ const float DEG2RAD = PI / 180;
 const float RAD2DEG = 180 / PI;
 
 struct v2f;
+struct v3f;
+
 struct v2i {
     int32_t x,y;
 
+    v2f toV2f() const;
     int lengthSq() const;
     float length() const;
 
@@ -29,6 +32,7 @@ struct v2f {
 
     float x,y;
 
+    v3f toFlatV3f() const;
     v2f round() const;
     float lengthSq() const;
     float length() const;
@@ -45,7 +49,22 @@ struct v2f {
 };
 
 struct v3i { int32_t x,y,z; };
+struct v3f
+{
+    float x,y,z;
+    v3f operator/(double b) const;
+};
 struct Guid { uint64_t a, b; };
+
+struct Color
+{
+    float r,g,b,a;
+    static Color black();
+    static Color white();
+    static Color red();
+    static Color green();
+    static Color blue();
+};
 
 struct RobotPosition {
     v2i position;

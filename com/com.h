@@ -49,7 +49,16 @@ namespace UnityEngine {
 	inline void (*Logf)(const char* message, float value);
 	inline void (*LogV2i)(const char* message, v2i value);
 	inline void (*LogV2f)(const char* message, v2f value);
+
+	namespace Debug
+	{
+		inline void (*DrawRay2D)(v2f start, v2f target, float time, Color color);
+		inline void (*DrawRay3D)(v3f start, v3f target, float time, Color color);
+		inline void (*DrawLine2D)(v2f a, v2f b, float time, Color color);
+		inline void (*DrawLine3D)(v3f a, v3f b, float time, Color color);
+	}
 };
+
 
 // Interacting with the plugin
 namespace Plugin {
