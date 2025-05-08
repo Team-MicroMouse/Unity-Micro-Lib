@@ -19,7 +19,7 @@ enum State {
 };
 
 class WallFollowerRobotcontroller : IRobotController {
-    std::chrono::time_point<std::chrono::system_clock> then;
+    std::chrono::steady_clock::time_point then;
 
     Microsim::Robot robot;
     Microsim::Sensor_i32 fwdSensor, leftSensor, rightSensor;
