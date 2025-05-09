@@ -95,11 +95,11 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
             lhs = leftSensor.ReadValue();
             rhs = rightSensor.ReadValue();
 
-            if ((fwd != 0 && fwd < 30) || (lhs != 0 && lhs < 30) || (rhs != 0 && rhs < 30)) {
+            /*if ((fwd != 0 && fwd < 30) || (lhs != 0 && lhs < 30) || (rhs != 0 && rhs < 30)) {
                 UnityEngine::Log("STOP");
                 motorController->MoveDistance(0);
                 break;
-            }
+            } */
 
             break;
 
