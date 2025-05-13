@@ -25,6 +25,7 @@ namespace Microsim {
 	inline uint32_t (*Robot_FindComponent)(uint32_t handle, Guid guid);
 
 	inline void (*SimMotorController_Setup)(uint32_t handle, uint32_t robotHandle, void* data);
+	inline void (*SimMotorController_Stop)(uint32_t handle);
 	inline void (*SimMotorController_UpdateMovement)(uint32_t handle, float dt, RobotPosition pos);
 	inline float (*SimMotorController_GetDistanceCovered)(uint32_t handle);
 	inline uint32_t (*SimMotorController_GetCurrentState)(uint32_t handle);

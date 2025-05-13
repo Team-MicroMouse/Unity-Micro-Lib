@@ -2,21 +2,24 @@
 // Created by gamin on 09/05/2025.
 //
 
-#ifndef RANDOMDIRECTIONMOVER_H
-#define RANDOMDIRECTIONMOVER_H
+#ifndef RandomDirectionMover_H
+#define RandomDirectionMover_H
 
 #include <chrono>
 #include "../../algorithms/algorithms.h"
 #include "../../microsim/microsim.h"
 
-enum State {
-    Start,
-    Moving,
-    Rotating,
-    Idle,
-};
+
 
 class RandomDirectionMover: IRobotController {
+    enum State {
+        Start,
+        Moving,
+        Rotating,
+        Collided,
+        Idle,
+    };
+
     std::chrono::steady_clock::time_point then;
 
     Microsim::Robot robot;
@@ -26,10 +29,12 @@ class RandomDirectionMover: IRobotController {
     IPositionTracker* positionTracker;
     IMotorController* motorController;
 
+    State state;
+
 public:
     ~RandomDirectionMover() override;
     void Setup(Microsim::Robot robot, void* data) override;
     void Loop(float dtf) override;
 };
 
-#endif //RANDOMDIRECTIONMOVER_H
+#endif

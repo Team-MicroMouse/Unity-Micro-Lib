@@ -19,6 +19,7 @@ public:
 
 	virtual ~IMotorController() = default;
 	virtual void Setup(Microsim::Robot robot, void* data) = 0;
+	virtual void Stop() = 0;
     virtual void UpdateMovement(float dt, RobotPosition position) = 0;
 	virtual MoveState GetMoveState() = 0;
     virtual float GetDistanceCovered() = 0;
@@ -49,6 +50,7 @@ public:
 	SimulatorMotorController(const char* algorithm);
 	~SimulatorMotorController() override;
 	void Setup(Microsim::Robot robot, void* data) override;
+	void Stop() override;
 	void UpdateMovement(float dt, RobotPosition position) override;
 	MoveState GetMoveState() override;
 	float GetDistanceCovered() override;

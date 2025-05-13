@@ -9,16 +9,17 @@
 #include "../../algorithms/algorithms.h"
 #include "../../microsim/microsim.h"
 
-enum State {
-    Start,
-    StartRotate,
-    StartMoving,
-    Rotating,
-    Moving,
-    Idle
-};
 
 class WallFollowerRobotcontroller : IRobotController {
+    enum State {
+        Start,
+        StartRotate,
+        StartMoving,
+        Rotating,
+        Moving,
+        Idle
+    };
+
     std::chrono::steady_clock::time_point then;
 
     Microsim::Robot robot;

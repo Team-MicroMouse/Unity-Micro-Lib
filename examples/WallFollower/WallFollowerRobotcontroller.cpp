@@ -42,7 +42,9 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
 
     v2f gridPos, targetGridPos;
     v2i targetPos, targetDir;
-    int fwd, lhs, rhs;
+    int fwd = fwdSensor.ReadValue();
+    int lhs = leftSensor.ReadValue();
+    int rhs = rightSensor.ReadValue();
 
     switch (state) {
         case Start:
@@ -76,7 +78,7 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
         case Rotating:
             if (motorController->GetMoveState() == IMotorController::Idle) {
                 gridPos = (robotPosition.position / 180.0f).round();
-                targetPos = ((gridPos + v2f::fromAngle(robotPosition.angle).explode().normalize()) * 180).roundToV2i();
+                targetPos = ((gridPos + v2f::fromAngle(robotPosition.angle).normalize()) * 180).roundToV2i();
                 targetDir = targetPos - robotPosition.position;
                 motorController->MoveDistance(targetDir.length());
                 UnityEngine::Log("Moving");
@@ -91,23 +93,17 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
                 break;
             }
 
-            fwd = fwdSensor.ReadValue();
-            lhs = leftSensor.ReadValue();
-            rhs = rightSensor.ReadValue();
 
-            /*if ((fwd != 0 && fwd < 30) || (lhs != 0 && lhs < 30) || (rhs != 0 && rhs < 30)) {
+
+            if ((fwd != 0 && fwd < 60) || (lhs != 0 && lhs < 30) || (rhs != 0 && rhs < 30)) {
                 UnityEngine::Log("STOP");
-                motorController->MoveDistance(0);
+                motorController->Stop();
                 break;
-            } */
+            }
 
             break;
 
         case Idle:
-            fwd = fwdSensor.ReadValue();
-            lhs = leftSensor.ReadValue();
-            rhs = rightSensor.ReadValue();
-
             UnityEngine::Logi("FWD", fwdSensor.ReadValue());
             UnityEngine::Logi("LHS", leftSensor.ReadValue());
             UnityEngine::Logi("RHS", rightSensor.ReadValue());
@@ -147,10 +143,8 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
             }
 
             targetDir = targetPos - robotPosition.position;
+
             motorController->RotateToAngle(static_cast<int>(std::round(std::atan2(targetDir.y, targetDir.x) * RAD2DEG) + 90));
-            UnityEngine::LogV2i("Current Pos:", robotPosition.position);
-            UnityEngine::LogV2i("Target Pos:", targetPos);
-            UnityEngine::LogV2i("Target Dir:", targetDir);
             UnityEngine::Log("Rotating");
             state = Rotating;
             break;
