@@ -15,4 +15,6 @@ add_library(Unity_Link_Test SHARED library.cpp
         examples/WallFollower/WallFollowerRobotcontroller.h
         algorithms/SimulatorMotorController.cpp
         algorithms/SimulatorPositionTracker.cpp
+        examples/Floodfill/Floodfill.cpp
+        examples/Floodfill/Floodfill.h
 )
