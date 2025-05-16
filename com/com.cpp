@@ -5,10 +5,12 @@
 
 #include "../algorithms/algorithms.h"
 #include "../examples/Floodfill/Floodfill.h"
+#include "../examples/FloodfillStack/FloodfillStack.h"
 #include "../examples/SimpleObjectDetector/SimpleObjectDetector.h"
 #include "../examples/WallFollower/WallFollowerRobotcontroller.h"
 #include "../microsim/microsim.h"
 
+class FloodfillStack;
 Plugin::CreateNativeObject* nativeObjectConstructorList;
 int nativeObjectListPtr;
 
@@ -136,6 +138,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	registerObject<SimpleObjectDetector>(Plugin::ObjectDetector, "Simple Object Detector");
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
+	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
 
 	/* Finishing up */
 
