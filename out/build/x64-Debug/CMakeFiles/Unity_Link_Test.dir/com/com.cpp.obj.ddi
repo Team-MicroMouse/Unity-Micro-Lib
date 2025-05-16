@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\Unity_Link_Test.dir\\com\\com.cpp.obj",
+            "outputs": [
+                "C:\\Users\\Jeroen\\CLionProjects\\Unity Link Test\\out\\build\\x64-Debug\\vc140.pdb",
+                "CMakeFiles\\Unity_Link_Test.dir\\com\\com.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}

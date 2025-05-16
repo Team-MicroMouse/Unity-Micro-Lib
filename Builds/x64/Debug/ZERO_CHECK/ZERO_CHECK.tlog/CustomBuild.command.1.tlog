@@ -1,0 +1,10 @@
+^C:\USERS\JEROEN\CLIONPROJECTS\UNITY LINK TEST\BUILDS\CMAKEFILES\BCE125BE4426BF20D19D29543B6B5A17\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/Jeroen/CLionProjects/Unity Link Test" "-BC:/Users/Jeroen/CLionProjects/Unity Link Test/Builds" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/Jeroen/CLionProjects/Unity Link Test/Builds/Unity_Link_Test.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

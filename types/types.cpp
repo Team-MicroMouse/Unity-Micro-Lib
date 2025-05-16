@@ -50,7 +50,8 @@ bool v2i::operator==(v2i b) const {
 
 v2f v2f::fromAngle(const int angle) {
     const float rads = static_cast<float>(angle) * DEG2RAD;
-    return v2f(sin(rads), -cos(rads));
+    const v2f ang = v2f(std::round(sin(rads)), std::round(-cos(rads)));
+    return ang;
 }
 
 v2f v2f::round() const {
@@ -71,6 +72,9 @@ v2i v2f::roundToV2i() const {
 }
 
 v2f v2f::explode() const {
+    if (x == 0 && y == 0) {
+        return v2f(0, 0);
+    }
     float xAbs = abs(x), yAbs = abs(y);
     return v2f(x * (xAbs > yAbs), y * (yAbs > xAbs));
 }

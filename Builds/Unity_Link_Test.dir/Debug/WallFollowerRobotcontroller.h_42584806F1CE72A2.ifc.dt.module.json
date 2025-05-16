@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Unity_Link_Test.dir\\Debug\\WallFollowerRobotcontroller.obj",
+            "outputs": [
+                "Unity_Link_Test.dir\\Debug\\WallFollowerRobotcontroller.h_42584806F1CE72A2.ifc.dt.module.json",
+                "Unity_Link_Test.dir\\Debug\\WallFollowerRobotcontroller.h_42584806F1CE72A2.ifc.dt.d.json",
+                "Unity_Link_Test.dir\\Debug\\WallFollowerRobotcontroller.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\Jeroen\\CLionProjects\\Unity Link Test\\examples\\WallFollower\\WallFollowerRobotcontroller.h",
+                    "source-path": "c:\\users\\jeroen\\clionprojects\\unity link test\\examples\\wallfollower\\wallfollowerrobotcontroller.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

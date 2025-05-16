@@ -6,6 +6,7 @@
 #include "../algorithms/algorithms.h"
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
+#include "../examples/RandomDirectionMover/RandomDirectionMover.h"
 #include "../examples/SimpleObjectDetector/SimpleObjectDetector.h"
 #include "../examples/WallFollower/WallFollowerRobotcontroller.h"
 #include "../microsim/microsim.h"
@@ -115,6 +116,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	Microsim::Robot_FindComponent = *reinterpret_cast<uint32_t (**)(uint32_t, Guid)>(GetFunction("Microsim::Robot_FindComponent"));
 
 	Microsim::SimMotorController_Setup = *reinterpret_cast<void (**)(uint32_t handle, uint32_t robotHandle, void* data)>(GetFunction("Microsim::SimMotorController_Setup"));
+	Microsim::SimMotorController_Stop = *reinterpret_cast<void (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_Stop"));
 	Microsim::SimMotorController_UpdateMovement = *reinterpret_cast<void (**)(uint32_t handle, float dt, RobotPosition position)>(GetFunction("Microsim::SimMotorController_UpdateMovement"));
 	Microsim::SimMotorController_GetCurrentState = *reinterpret_cast<uint32_t (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetCurrentState"));
 	Microsim::SimMotorController_GetDistanceCovered = *reinterpret_cast<float (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetDistanceCovered"));
@@ -136,9 +138,11 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	UnityEngine::Log("Registering Native Objects");
 
 	registerObject<SimpleObjectDetector>(Plugin::ObjectDetector, "Simple Object Detector");
+	registerObject<RandomDirectionMover>(Plugin::RobotController, "Random Direction Mover");
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
 	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
+
 
 	/* Finishing up */
 

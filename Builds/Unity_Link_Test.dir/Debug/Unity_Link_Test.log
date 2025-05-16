@@ -1,0 +1,22 @@
+﻿  Scanning sources for module dependencies...
+  SimulatorMotorController.cpp
+  library.cpp
+  algorithms.cpp
+  microsim.cpp
+  com.cpp
+  types.cpp
+  WallFollowerRobotcontroller.cpp
+  SimpleObjectDetector.cpp
+  SimulatorPositionTracker.cpp
+  Compiling...
+  com.cpp
+  SimpleObjectDetector.cpp
+  algorithms.cpp
+  types.cpp
+  microsim.cpp
+  library.cpp
+  WallFollowerRobotcontroller.cpp
+  SimulatorMotorController.cpp
+  SimulatorPositionTracker.cpp
+     Creating library C:/Users/Jeroen/CLionProjects/Unity Link Test/Builds/Debug/Unity_Link_Test.lib and object C:/Users/Jeroen/CLionProjects/Unity Link Test/Builds/Debug/Unity_Link_Test.exp
+  Unity_Link_Test.vcxproj -> C:\Users\Jeroen\CLionProjects\Unity Link Test\Builds\Debug\Unity_Link_Test.dll

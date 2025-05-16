@@ -15,6 +15,10 @@ void SimulatorMotorController::Setup(Microsim::Robot robot, void* data) {
     Microsim::SimMotorController_Setup(handle, robot.handle, data);
 }
 
+void SimulatorMotorController::Stop() {
+    Microsim::SimMotorController_Stop(handle);
+}
+
 void SimulatorMotorController::UpdateMovement(float dt, RobotPosition position) {
     Microsim::SimMotorController_UpdateMovement(handle, dt, position);
 }

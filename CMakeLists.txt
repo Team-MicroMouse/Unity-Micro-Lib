@@ -19,4 +19,6 @@ add_library(Unity_Link_Test SHARED library.cpp
         examples/Floodfill/Floodfill.h
         examples/FloodfillStack/FloodfillStack.cpp
         examples/FloodfillStack/FloodfillStack.h
+        examples/RandomDirectionMover/RandomDirectionMover.cpp
+        examples/RandomDirectionMover/RandomDirectionMover.h
 )
