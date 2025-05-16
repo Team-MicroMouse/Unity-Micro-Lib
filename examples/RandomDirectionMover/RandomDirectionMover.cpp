@@ -26,7 +26,7 @@ void RandomDirectionMover::Setup(Microsim::Robot robot, void *data)
     motorController->Setup(robot, nullptr);
     positionTracker->Setup(robot, nullptr);
     motorController->SetGyroNull();
-    motorController->SetRpm(80);
+    motorController->SetRpm(70);
     state = Start;
 
 
@@ -45,6 +45,7 @@ void RandomDirectionMover::Loop(float dtf)
     positionTracker->Process(&robotPosition);
     motorController->UpdateMovement(dtf, robotPosition);
 
+    bool sideCol = false;
     v2f gridPos, targetGridPos;
     v2i targetPos, targetDir;
 
@@ -59,7 +60,8 @@ void RandomDirectionMover::Loop(float dtf)
         UnityEngine::Log("Starting");
         break;
     case Moving:
-        if ((fwd != 0 && fwd < 55) || (lhs != 0 && lhs < 30) || (rhs != 0 && rhs < 30))
+        sideCol = (lhs != 0 && lhs < 30) || (rhs != 0 && rhs < 30);
+        if ((fwd != 0 && fwd < 55) || sideCol || !(fwd != 0 && fwd < 55) && sideCol )
         {
             UnityEngine::Log("STOP");
             motorController->Stop();
