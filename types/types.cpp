@@ -141,6 +141,7 @@ bool MapCell::is_wall_north() const { return (value & 1 << 1) == 1 << 1; }
 bool MapCell::is_wall_east() const { return (value & 1 << 2) == 1 << 2;  }
 bool MapCell::is_wall_south() const { return (value & 1 << 3) == 1 << 3; }
 bool MapCell::is_wall_west() const { return (value & 1 << 4) == 1 << 4; }
+bool MapCell::is_wall_highlight() const { return (value & 1 << 5) == 1 << 5; }
 
 void MapCell::set_discovered(bool value) {
     this->value = (this->value & ~(1 << 0)) | (value << 0);
@@ -162,13 +163,15 @@ void MapCell::set_wall_west(bool value) {
     this->value = (this->value & ~(1 << 4)) | (value << 4);
 }
 
-bool Map::is_in_bounds(v2i position) const
-{
+void MapCell::set_wall_highlight(bool value) {
+    this->value = (this->value & ~(1 << 5)) | (value << 5);
+}
+
+bool Map::is_in_bounds(v2i position) const {
     return position.x >= 0 && position.y >= 0 && position.x < size.x && position.y < size.y;
 }
 
-MapCell* Map::get_cell(v2i position) const
-{
+MapCell* Map::get_cell(v2i position) const {
     return &cells[position.y * size.x + position.x];
 }
 

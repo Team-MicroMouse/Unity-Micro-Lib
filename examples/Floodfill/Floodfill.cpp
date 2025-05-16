@@ -24,6 +24,8 @@ int Floodfill::Pathfind(Map map, RobotPosition position, v2f target, v2i* path) 
         MapCell* cell = map.get_cell(current_cell);
         CellData cell_data = cell_datas[current_cell];
 
+        cell->set_wall_highlight(true);
+
         if (!cell->is_discovered()) {
             break;
         }
