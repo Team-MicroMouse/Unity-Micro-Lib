@@ -41,7 +41,7 @@ class  IObjectDetectorAlgorithm {
 public:
 	virtual ~IObjectDetectorAlgorithm() = default;
 	virtual void Setup(Microsim::Robot robot, void* data) = 0;
-	virtual void Process(int* map, v2i mapSize) = 0;
+	virtual void Process(Map map) = 0;
 };
 
 class IPathfinder {
