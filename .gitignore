@@ -34,3 +34,4 @@
 .vs
 .idea
 cmake-build-*
+.DS_STORE
