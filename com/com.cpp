@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../algorithms/algorithms.h"
+#include "../examples/Astar/Astar.h"
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
 #include "../examples/SimpleObjectDetector/SimpleObjectDetector.h"
@@ -139,6 +140,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
 	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
+	registerObject<Astar>(Plugin::Pathfinder, "Astar");
 
 	/* Finishing up */
 

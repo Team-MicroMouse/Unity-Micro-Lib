@@ -11,14 +11,22 @@ public:
     void Setup(Microsim::Robot robot, void* data) override;
     int Pathfind(Map map, RobotPosition robot_position, v2i target, v2i* path) override;
 
+private:
+    struct NodeData;
+    static void insert_ordered(std::list<NodeData*>& list, NodeData* node_data);
+    void check_position(
+        std::list<NodeData*>& nodes_to_process,
+        std::unordered_map<v2i, NodeData>& node_datas,
+        NodeData* current_node,
+        Map map, v2i prev_pos, v2i dir, v2i target_pos);
+
+public:
     struct NodeData {
         v2i position;
         v2i origin;
-        int gCost;
-        int fCost;
-
-        int operator<(const NodeData& b) const { return fCost < b.fCost; }
-        int operator>(const NodeData& b) const { return fCost > b.fCost; }
+        int depth;
+        int cost_g;
+        int cost_h;
     };
 };
 
