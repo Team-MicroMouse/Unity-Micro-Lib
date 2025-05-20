@@ -47,7 +47,7 @@ void Microsim::Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, vo
 	}
 }
 
-int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2f target, v2i* path) {
+int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2i target, v2i* path) {
 	if (ptr == nullptr) {
 		UnityEngine::Log("Nullptr in Pathfinder_Pathfind");
 		return -1;
