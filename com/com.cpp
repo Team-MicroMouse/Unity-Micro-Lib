@@ -31,11 +31,11 @@ void Microsim::ObjectDetector_Setup(IObjectDetectorAlgorithm* algorithm, uint32_
 	}
 }
 
-void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, int *map, v2i mapSize) {
+void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, Map map, RobotPosition robot_position) {
 	if (algorithm == nullptr) {
 		UnityEngine::Log("Nullptr in ObjectDetector_Process");
 	} else {
-		algorithm->Process(map, mapSize);
+		algorithm->Process(map, robot_position);
 	}
 }
 
