@@ -24,6 +24,8 @@ namespace Microsim {
 
 	struct Sensor_i32 : Object {
 		int32_t ReadValue() const;
+
+		int GetValue();
 	};
 
 	struct Sensor_f32 : Object {

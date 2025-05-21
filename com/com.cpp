@@ -6,10 +6,11 @@
 #include "../algorithms/algorithms.h"
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
-#include "../examples/SimpleObjectDetector/SimpleObjectDetector.h"
+#include "../examples/ObjectDetection/Objectdetection.h"
 #include "../examples/WallFollower/WallFollowerRobotcontroller.h"
 #include "../microsim/microsim.h"
 
+class Objectdetection;
 class FloodfillStack;
 Plugin::CreateNativeObject* nativeObjectConstructorList;
 int nativeObjectListPtr;
@@ -135,7 +136,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 
 	UnityEngine::Log("Registering Native Objects");
 
-	registerObject<SimpleObjectDetector>(Plugin::ObjectDetector, "Simple Object Detector");
+	registerObject<Objectdetection>(Plugin::ObjectDetector, "Objectdetection");
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
 	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
