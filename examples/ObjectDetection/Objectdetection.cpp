@@ -1,8 +1,8 @@
 #include "Objectdetection.h"
 #include "types.h"
 #include "Direction.h"
-#include "WallFollowerRobotController.h
-"
+#include "WallFollowerRobotcontroller.cpp"
+
 using namespace Microsim;
 
 #ifdef DEBUG_MODE
@@ -10,6 +10,7 @@ using namespace Microsim;
 #endif
 
 #define  WALL_THRESHOLD 300 // Afstand (in mm) die telt als de muur
+#define CELL_WALL 1
 
 void Objectdetection::Setup(Microsim::Robot robot, void *data) {
     fwdSensor = robot.FindComponent(Guid(4764948050219179759u, 13563840741769542562u)).ToSensor_i32();
@@ -23,7 +24,7 @@ void Objectdetection::LogSensors(int front, int left, int right) {
 }
 #endif
 
-void Objectdetection::Process(Map map, RobotPosition position) {
+void Objectdetection::Process(Map map,RobotPosition position) {
     // huidige positie op grid
     v2i grid_pos = (position.position / CELL_SIZE_F).roundToV2i();
 
@@ -35,7 +36,7 @@ void Objectdetection::Process(Map map, RobotPosition position) {
     //richtingsvectoren bepalen afhankelijk van waar de robot naar kijkt
     v2i forwardDir, leftDir, rightDir;
 
-    switch (position.direction) {
+    switch (position.Direction) {
         case DIR_NORTH:
             forwardDir = v2i(0, 1);
             leftDir = v2i(-1, 0);
@@ -56,6 +57,12 @@ void Objectdetection::Process(Map map, RobotPosition position) {
             leftDir = v2i(0, -1);
             rightDir = v2i(0, 1);
             break;
+        default:
+            forwardDir = v2i(0,0);
+            leftDir = v2i(0, 0);
+            rightDir = v2i(0, 0);
+            break;
+
 
     }
     // muren tekenen in de map op basis van sensorinput

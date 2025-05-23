@@ -4,6 +4,7 @@
 
 #ifndef MATH_H
 #define MATH_H
+#define CELL_WALL 1
 #include <cstdint>
 #include <functional>
 #include <math.h>
@@ -105,6 +106,8 @@ struct Map {
 
     bool is_in_bounds(v2i position) const;
     MapCell* get_cell(v2i position) const;
+
+    void SetCell(v2i position, int value);
 };
 
 struct v2iHasher {

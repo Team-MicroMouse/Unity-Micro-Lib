@@ -167,6 +167,12 @@ void MapCell::set_wall_highlight(bool value) {
     this->value = (this->value & ~(1 << 5)) | (value << 5);
 }
 
+void Map::SetCell(v2i position, int value) {
+    if (is_in_bounds(position)) {
+        get_cell(position)->value = value;
+    }
+}
+
 bool Map::is_in_bounds(v2i position) const {
     return position.x >= 0 && position.y >= 0 && position.x < size.x && position.y < size.y;
 }
