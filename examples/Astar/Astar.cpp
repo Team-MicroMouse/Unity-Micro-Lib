@@ -70,11 +70,11 @@ void Astar::check_position(
 
     if (node_datas.contains(curr_pos)) {
         NodeData& node_data = node_datas.at(curr_pos);
-        const int cost_f = node_data.cost_h;
-        const int new_cost_f = current_node->cost_h + node_data.cost_g;
+        const int cost_f = node_data.cost_f;
+        const int new_cost_f = current_node->cost_f + node_data.cost_g;
         if (cost_f > new_cost_f) {
-            node_data.cost_h = new_cost_f;
-            node_data.position = current_node->position;
+            node_data.cost_f = new_cost_f;
+            node_data.origin = current_node->position;
             node_data.depth = current_node->depth+1;
         }
 
@@ -83,7 +83,7 @@ void Astar::check_position(
 
     map_cell->set_wall_highlight(true);
     const int cost_g = h(curr_pos, target_pos);
-    auto node_data = NodeData(curr_pos, prev_pos, current_node->depth+1, cost_g, current_node->cost_h + cost_g);
+    auto node_data = NodeData(curr_pos, prev_pos, current_node->depth+1, cost_g, current_node->cost_f + cost_g);
     node_datas.insert({ curr_pos, node_data });
     insert_ordered(nodes_to_process, &node_datas[curr_pos]);
 }

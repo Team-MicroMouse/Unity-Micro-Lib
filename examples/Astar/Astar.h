@@ -24,9 +24,9 @@ public:
     struct NodeData {
         v2i position;
         v2i origin;
-        int depth;
+        int depth; // Should be replaced with f-cost, but this is just more convenient to use
         int cost_g;
-        int cost_h;
+        int cost_f;
     };
 };
 
