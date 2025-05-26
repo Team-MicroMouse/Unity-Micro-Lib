@@ -4,10 +4,13 @@
 #include <iostream>
 
 #include "../algorithms/algorithms.h"
+#include "../examples/Floodfill/Floodfill.h"
+#include "../examples/FloodfillStack/FloodfillStack.h"
 #include "../examples/SimpleObjectDetector/SimpleObjectDetector.h"
 #include "../examples/WallFollower/WallFollowerRobotcontroller.h"
 #include "../microsim/microsim.h"
 
+class FloodfillStack;
 Plugin::CreateNativeObject* nativeObjectConstructorList;
 int nativeObjectListPtr;
 
@@ -33,6 +36,23 @@ void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, int *
 		UnityEngine::Log("Nullptr in ObjectDetector_Process");
 	} else {
 		algorithm->Process(map, mapSize);
+	}
+}
+
+void Microsim::Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, void* data) {
+	if (algorithm == nullptr) {
+		UnityEngine::Log("Nullptr in Pathfinder_setup");
+	} else {
+		algorithm->Setup(Robot { robotHandle }, data);
+	}
+}
+
+int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2f target, v2i* path) {
+	if (ptr == nullptr) {
+		UnityEngine::Log("Nullptr in Pathfinder_Pathfind");
+		return -1;
+	} else {
+		return ptr->Pathfind(map, position, target, path);
 	}
 }
 
@@ -117,6 +137,8 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 
 	registerObject<SimpleObjectDetector>(Plugin::ObjectDetector, "Simple Object Detector");
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
+	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
+	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
 
 	/* Finishing up */
 

@@ -44,6 +44,13 @@ public:
 	virtual void Process(int* map, v2i mapSize) = 0;
 };
 
+class IPathfinder {
+public:
+	virtual ~IPathfinder() = default;
+	virtual void Setup(Microsim::Robot robot, void* data) = 0;
+	virtual int Pathfind(Map map, RobotPosition position, v2f target, v2i* path) = 0;
+};
+
 class SimulatorMotorController : IMotorController, Microsim::Object {
 public:
 	SimulatorMotorController(const char* algorithm);
