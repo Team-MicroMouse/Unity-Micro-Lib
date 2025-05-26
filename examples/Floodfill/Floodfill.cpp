@@ -3,7 +3,7 @@
 
 void Floodfill::Setup(Microsim::Robot robot, void* data) { }
 
-int Floodfill::Pathfind(Map map, RobotPosition position, v2f target, v2i* path) {
+int Floodfill::Pathfind(Map map, RobotPosition position, v2i target, v2i* path) {
     struct CellData {
         v2i parent;
         int depth;

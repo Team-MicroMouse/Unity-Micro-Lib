@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../algorithms/algorithms.h"
+#include "../examples/Astar/Astar.h"
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
 #include "../examples/SimpleObjectDetector/SimpleObjectDetector.h"
@@ -47,7 +48,7 @@ void Microsim::Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, vo
 	}
 }
 
-int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2f target, v2i* path) {
+int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2i target, v2i* path) {
 	if (ptr == nullptr) {
 		UnityEngine::Log("Nullptr in Pathfinder_Pathfind");
 		return -1;
@@ -139,6 +140,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
 	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
+	registerObject<Astar>(Plugin::Pathfinder, "Astar");
 
 	/* Finishing up */
 

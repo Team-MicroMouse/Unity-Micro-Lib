@@ -21,6 +21,11 @@ float v2i::length() const {
     return std::sqrt(lengthSq());
 }
 
+v2i v2i::explode() const {
+    int xAbs = abs(x), yAbs = abs(y);
+    return v2i(x * (xAbs > yAbs), y * (yAbs > xAbs));
+}
+
 v2i v2i::operator+(v2i b) const {
     return v2i(x + b.x, y + b.y);
 }
@@ -142,6 +147,12 @@ bool MapCell::is_wall_east() const { return (value & 1 << 2) == 1 << 2;  }
 bool MapCell::is_wall_south() const { return (value & 1 << 3) == 1 << 3; }
 bool MapCell::is_wall_west() const { return (value & 1 << 4) == 1 << 4; }
 bool MapCell::is_wall_highlight() const { return (value & 1 << 5) == 1 << 5; }
+bool MapCell::is_wall_in_dir(v2i dir) const {
+    int xByte = (static_cast<int>(std::pow(((1 - (dir.x + 1) / 2) + 1) & 3, 2)) << 2) * (dir.x != 0);
+    int yByte = (static_cast<int>(std::pow(((1 - (dir.y + 1) / 2) + 1) & 3, 2)) << 1) * (dir.y != 0);
+    int byte = xByte + yByte;
+    return (value & byte) == byte;
+}
 
 void MapCell::set_discovered(bool value) {
     this->value = (this->value & ~(1 << 0)) | (value << 0);
