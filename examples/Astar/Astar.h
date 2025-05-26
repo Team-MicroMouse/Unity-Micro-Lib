@@ -16,7 +16,7 @@ private:
     static void insert_ordered(std::list<NodeData*>& list, NodeData* node_data);
     void check_position(
         std::list<NodeData*>& nodes_to_process,
-        std::unordered_map<v2i, NodeData>& node_datas,
+        std::unordered_map<v2i, NodeData, v2iHasher>& node_datas,
         NodeData* current_node,
         Map map, v2i prev_pos, v2i dir, v2i target_pos);
 

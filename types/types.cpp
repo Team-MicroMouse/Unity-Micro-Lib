@@ -148,10 +148,10 @@ bool MapCell::is_wall_south() const { return (value & 1 << 3) == 1 << 3; }
 bool MapCell::is_wall_west() const { return (value & 1 << 4) == 1 << 4; }
 bool MapCell::is_wall_highlight() const { return (value & 1 << 5) == 1 << 5; }
 bool MapCell::is_wall_in_dir(v2i dir) const {
-    int xByte = static_cast<int>(std::pow(((1 - (dir.x + 1) / 2) + 1) & 3, 2)) << 2;
-    int yByte = static_cast<int>(std::pow(((1 - (dir.y + 1) / 2) + 1) & 3, 2)) << 1;
+    int xByte = (static_cast<int>(std::pow(((1 - (dir.x + 1) / 2) + 1) & 3, 2)) << 2) * (dir.x != 0);
+    int yByte = (static_cast<int>(std::pow(((1 - (dir.y + 1) / 2) + 1) & 3, 2)) << 1) * (dir.y != 0);
     int byte = xByte + yByte;
-    return (value & 1 << byte) == 1 << byte;
+    return (value & byte) == byte;
 }
 
 void MapCell::set_discovered(bool value) {

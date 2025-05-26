@@ -2,6 +2,8 @@
 
 #include <set>
 
+#include "../../com/com.h"
+
 Astar::Astar() {
     h = ManhattenDistance;
 }
@@ -12,12 +14,14 @@ void Astar::Setup(Microsim::Robot robot, void* data) {
 int Astar::Pathfind(Map map, RobotPosition robot_position, v2i target, v2i* path) {
 
     std::list<NodeData*> nodes_to_process;
-    std::unordered_map<v2i, NodeData> node_datas;
+    std::unordered_map<v2i, NodeData, v2iHasher> node_datas;
 
-    int cost_g = h(robot_position.position, target);
-    node_datas.insert({ robot_position.position, NodeData(robot_position.position, robot_position.position, 0, cost_g, cost_g) });
-    nodes_to_process.push_back(&node_datas[robot_position.position]);
+    v2i start_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
+    int cost_g = h(start_pos, target);
+    node_datas.insert({ start_pos, NodeData(start_pos, start_pos, 0, cost_g, cost_g) });
+    nodes_to_process.push_back(&node_datas[start_pos]);
 
+    int i = 0;
     while (!nodes_to_process.empty()) {
         NodeData* node_data = nodes_to_process.front();
 
@@ -50,7 +54,7 @@ int Astar::Pathfind(Map map, RobotPosition robot_position, v2i target, v2i* path
 
 void Astar::check_position(
     std::list<NodeData*>& nodes_to_process,
-    std::unordered_map<v2i, NodeData>& node_datas,
+    std::unordered_map<v2i, NodeData, v2iHasher>& node_datas,
     NodeData* current_node,
     Map map, v2i prev_pos, v2i dir, v2i target_pos) {
 
