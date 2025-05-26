@@ -60,7 +60,7 @@ void RandomDirectionMover::Loop(float dtf)
         UnityEngine::Log("Starting");
         break;
     case Moving:
-        sideCol = (lhs != 0 && lhs < 30) || (rhs != 0 && rhs < 30);
+        sideCol = (lhs != 0 && lhs <20) || (rhs != 0 && rhs < 20);
         if ((fwd != 0 && fwd < 55) || sideCol || !(fwd != 0 && fwd < 55) && sideCol )
         {
             UnityEngine::Log("STOP");
