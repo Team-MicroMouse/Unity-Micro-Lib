@@ -1,7 +1,8 @@
 #include "Objectdetection.h"
-#include "types.h"
+
 #include "Direction.h"
-#include "WallFollowerRobotcontroller.cpp"
+#include "../../types/types.h"
+#include "../../algorithms/algorithms.h"
 
 using namespace Microsim;
 
@@ -24,19 +25,19 @@ void Objectdetection::LogSensors(int front, int left, int right) {
 }
 #endif
 
-void Objectdetection::Process(Map map,RobotPosition position) {
+void Objectdetection::Process(Map map, RobotPosition position) {
     // huidige positie op grid
     v2i grid_pos = (position.position / CELL_SIZE_F).roundToV2i();
 
     //sensorwaarden
-    int front = fwdSensor.GetValue();
-    int left = leftSensor.GetValue();
-    int right = rightSensor.GetValue();
+    int front = fwdSensor.ReadValue();
+    int left = leftSensor.ReadValue();
+    int right = rightSensor.ReadValue();
 
     //richtingsvectoren bepalen afhankelijk van waar de robot naar kijkt
     v2i forwardDir, leftDir, rightDir;
 
-    switch (position.Direction) {
+    switch (position.angle) {
         case DIR_NORTH:
             forwardDir = v2i(0, 1);
             leftDir = v2i(-1, 0);

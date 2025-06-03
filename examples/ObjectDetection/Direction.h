@@ -9,9 +9,4 @@ enum Direction {
     DIR_WEST
 };
 
-struct RobotPosition {
-    v2f position;
-    Direction direction;
-};
-
 #endif //DIRECTION_H

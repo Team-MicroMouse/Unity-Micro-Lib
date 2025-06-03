@@ -3,6 +3,7 @@
 #define OBJECTDETECTION_H
 
 #include "../../algorithms/algorithms.h"
+#include "../../types/types.h"
 
 class Objectdetection : public IObjectDetectorAlgorithm {
 public:
