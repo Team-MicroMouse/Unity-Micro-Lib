@@ -63,9 +63,9 @@ namespace UnityEngine {
 // Interacting with the plugin
 namespace Plugin {
 	enum NativeObjectType : uint32_t {
-		ObjectDetector,
-		RobotController,
-		Pathfinder
+		ObjectDetector = 0,
+		RobotController = 1,
+		Pathfinder = 2
 	};
 
 	typedef std::function<void*()> CreateNativeObject;

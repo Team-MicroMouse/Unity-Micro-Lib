@@ -4,12 +4,12 @@ project(Unity_Link_Test)
 set(CMAKE_CXX_STANDARD 20)
 
 add_library(Unity_Link_Test SHARED library.cpp
-        examples/ObjectDetection/Direction.h)
-        target_include_directories(Unity_Link_Test PRIVATE
-        ${CMAKE_SOURCE_DIR}/types
-        ${CMAKE_SOURCE_DIR}/examples/ObjectDetection
+        #        target_include_directories(Unity_Link_Test PRIVATE
+#        ${CMAKE_SOURCE_DIR}/types
+#        ${CMAKE_SOURCE_DIR}/examples/ObjectDetection
 
         com/com.cpp
+        com/com.h
         microsim/microsim.cpp
         algorithms/algorithms.cpp
         types/types.cpp
