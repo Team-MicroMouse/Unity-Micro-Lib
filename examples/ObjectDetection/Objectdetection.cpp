@@ -3,6 +3,7 @@
 #include "Direction.h"
 #include "../../types/types.h"
 #include "../../algorithms/algorithms.h"
+#include "../../com/com.h"
 
 using namespace Microsim;
 
@@ -10,8 +11,7 @@ using namespace Microsim;
 #include <iostream>
 #endif
 
-#define  WALL_THRESHOLD 300 // Afstand (in mm) die telt als de muur
-#define CELL_WALL 1
+#define WALL_THRESHOLD 100 // Afstand (in mm) die telt als de muur
 
 void Objectdetection::Setup(Microsim::Robot robot, void *data) {
     fwdSensor = robot.FindComponent(Guid(4764948050219179759u, 13563840741769542562u)).ToSensor_i32();
@@ -25,56 +25,30 @@ void Objectdetection::LogSensors(int front, int left, int right) {
 }
 #endif
 
-void Objectdetection::Process(Map map, RobotPosition position) {
-    // huidige positie op grid
-    v2i grid_pos = (position.position / CELL_SIZE_F).roundToV2i();
+void Objectdetection::Process(Map map, RobotPosition robot_position) {
+    const v2i grid_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
 
-    //sensorwaarden
-    int front = fwdSensor.ReadValue();
-    int left = leftSensor.ReadValue();
-    int right = rightSensor.ReadValue();
+    const v2f fwd_offset = v2f(0, 10);
+    const v2f lhs_offset = v2f(-10, 10);
+    const v2f rhs_offset = v2f(10, 10);
 
-    //richtingsvectoren bepalen afhankelijk van waar de robot naar kijkt
-    v2i forwardDir, leftDir, rightDir;
+    const v2f fwd_dir = v2f(0,1);
+    const v2f lhs_dir = v2f(-1,1);
+    const v2f rhs_dir = v2f(1,1);
 
-    switch (position.angle) {
-        case DIR_NORTH:
-            forwardDir = v2i(0, 1);
-            leftDir = v2i(-1, 0);
-            rightDir = v2i(1, 0);
-            break;
-        case DIR_EAST:
-            forwardDir = v2i(1, 0);
-            leftDir = v2i(0, 1);
-            rightDir = v2i(0, -1);
-            break;
-        case DIR_SOUTH:
-            forwardDir = v2i(0, -1);
-            leftDir = v2i(1, 0);
-            rightDir = v2i(-1, 0);
-            break;
-        case DIR_WEST:
-            forwardDir = v2i(-1, 0);
-            leftDir = v2i(0, -1);
-            rightDir = v2i(0, 1);
-            break;
-        default:
-            forwardDir = v2i(0,0);
-            leftDir = v2i(0, 0);
-            rightDir = v2i(0, 0);
-            break;
+    const float fwd_angle = robot_position.angle;
+    const float lhs_angle = robot_position.angle - 90;
+    const float rhs_angle = robot_position.angle + 90;
 
+    const int fwd_value = fwdSensor.ReadValue();
+    const int lhs_value = leftSensor.ReadValue();
+    const int rhs_value = rightSensor.ReadValue();
 
-    }
-    // muren tekenen in de map op basis van sensorinput
-    if (front <WALL_THRESHOLD) {
-        map.SetCell(grid_pos + forwardDir, CELL_WALL);
-    }
-    if (left <WALL_THRESHOLD) {
-        map.SetCell(grid_pos + leftDir, CELL_WALL);
-    }
-    if (right <WALL_THRESHOLD) {
-        map.SetCell(grid_pos + rightDir, CELL_WALL);
-    }
+    const v2f fwd_hit_pos = robot_position.position.toV2f() + (fwd_offset + fwd_dir * fwd_value).rotated(fwd_angle * DEG2RAD);
+    const v2f lhs_hit_pos = robot_position.position.toV2f() + (lhs_offset + lhs_dir * lhs_value).rotated(lhs_angle * DEG2RAD);
+    const v2f rhs_hit_pos = robot_position.position.toV2f() + (rhs_offset + rhs_dir * rhs_value).rotated(rhs_angle * DEG2RAD);
+
+    UnityEngine::Debug::DrawLine2D(robot_position.position.toV2f() + fwd_offset.rotated(fwd_angle), fwd_hit_pos, 1, Color::red());
+    UnityEngine::Debug::DrawLine2D(robot_position.position.toV2f() + lhs_offset.rotated(lhs_angle), lhs_hit_pos, 1, Color::green());
+    UnityEngine::Debug::DrawLine2D(robot_position.position.toV2f() + rhs_offset.rotated(rhs_angle), rhs_hit_pos, 1, Color::blue());
 }
-

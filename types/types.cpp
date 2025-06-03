@@ -101,6 +101,13 @@ v2f v2f::operator/(float b) const {
     return v2f(x / b, y / b);
 }
 
+v2f v2f::rotated(float angleRad) const {
+    return v2f(
+        x * cos(angleRad) - y * sin(angleRad),
+        x * sin(angleRad) + y * cos(angleRad)
+    );
+}
+
 v3f v2f::toFlatV3f() const
 {
     return v3f(x,0, y);

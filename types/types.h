@@ -58,6 +58,7 @@ struct v2f {
     v2f operator-(const v2f & b) const;
     v2f operator*(float b) const;
     v2f operator/(float b) const;
+    v2f rotated(float angleRad) const;
 };
 
 struct v3i { int32_t x,y,z; };

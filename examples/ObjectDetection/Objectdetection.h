@@ -8,7 +8,7 @@
 class Objectdetection : public IObjectDetectorAlgorithm {
 public:
     void Setup(Microsim::Robot robot, void* data)override;
-    void Process(Map map, RobotPosition position)override;
+    void Process(Map map, RobotPosition robot_position)override;
 
 private:
     Microsim::Sensor_i32 fwdSensor;
