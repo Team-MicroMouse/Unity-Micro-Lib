@@ -98,7 +98,7 @@ namespace Microsim {
 	DLLEXPORT void ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, Map map, RobotPosition robot_position);
 
 	DLLEXPORT void Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, void* data);
-	DLLEXPORT int Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2f target, v2i* path);
+	DLLEXPORT int Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2i target, v2i* path);
 }
 
 //
