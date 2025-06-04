@@ -92,14 +92,15 @@ struct MapCell {
     bool is_wall_east() const;
     bool is_wall_south() const;
     bool is_wall_west() const;
-    bool is_wall_highlight() const;
     bool is_wall_in_dir(v2i dir) const;
+    bool is_wall_highlight() const;
 
     void set_discovered(bool value);
     void set_wall_north(bool value);
     void set_wall_east(bool value);
     void set_wall_south(bool value);
     void set_wall_west(bool value);
+    void set_wall_in_dir(v2i dir, bool value);
     void set_wall_highlight(bool value);
 };
 

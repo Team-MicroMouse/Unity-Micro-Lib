@@ -153,13 +153,16 @@ bool MapCell::is_wall_north() const { return (value & 1 << 1) == 1 << 1; }
 bool MapCell::is_wall_east() const { return (value & 1 << 2) == 1 << 2;  }
 bool MapCell::is_wall_south() const { return (value & 1 << 3) == 1 << 3; }
 bool MapCell::is_wall_west() const { return (value & 1 << 4) == 1 << 4; }
-bool MapCell::is_wall_highlight() const { return (value & 1 << 5) == 1 << 5; }
+
 bool MapCell::is_wall_in_dir(v2i dir) const {
     int xByte = (static_cast<int>(std::pow(((1 - (dir.x + 1) / 2) + 1) & 3, 2)) << 2) * (dir.x != 0);
     int yByte = (static_cast<int>(std::pow(((1 - (dir.y + 1) / 2) + 1) & 3, 2)) << 1) * (dir.y != 0);
     int byte = xByte + yByte;
     return (value & byte) == byte;
 }
+
+bool MapCell::is_wall_highlight() const { return (value & 1 << 5) == 1 << 5; }
+
 
 void MapCell::set_discovered(bool value) {
     this->value = (this->value & ~(1 << 0)) | (value << 0);
@@ -179,6 +182,13 @@ void MapCell::set_wall_south(bool value) {
 
 void MapCell::set_wall_west(bool value) {
     this->value = (this->value & ~(1 << 4)) | (value << 4);
+}
+
+void MapCell::set_wall_in_dir(v2i dir, bool value) {
+    int xByte = (static_cast<int>(std::pow(((1 - (dir.x + 1) / 2) + 1) & 3, 2)) << 2) * (dir.x != 0);
+    int yByte = (static_cast<int>(std::pow(((1 - (dir.y + 1) / 2) + 1) & 3, 2)) << 1) * (dir.y != 0);
+    int byte = xByte + yByte;
+    this->value = (this->value & ~byte) | (value * byte);
 }
 
 void MapCell::set_wall_highlight(bool value) {
