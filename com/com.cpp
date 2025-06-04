@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../algorithms/algorithms.h"
+#include "../examples/Astar/Astar.h"
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
 #include "../examples/ObjectDetection/Objectdetection.h"
@@ -48,7 +49,7 @@ void Microsim::Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, vo
 	}
 }
 
-int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2f target, v2i* path) {
+int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2i target, v2i* path) {
 	if (ptr == nullptr) {
 		UnityEngine::Log("Nullptr in Pathfinder_Pathfind");
 		return -1;
@@ -101,10 +102,10 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	UnityEngine::LogV2f = *reinterpret_cast<void (**)(const char *, v2f)>(GetFunction("UnityEngine::LogV2f"));
 	UnityEngine::LogV2i = *reinterpret_cast<void (**)(const char *, v2i)>(GetFunction("UnityEngine::LogV2i"));
 
-	UnityEngine::Debug::DrawLine2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay2D"));
-	UnityEngine::Debug::DrawLine3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay3D"));
-	UnityEngine::Debug::DrawRay2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine2D"));
-	UnityEngine::Debug::DrawRay3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine3D"));
+	UnityEngine::Debug::DrawLine2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine2D"));
+	UnityEngine::Debug::DrawLine3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine3D"));
+	UnityEngine::Debug::DrawRay2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay2D"));
+	UnityEngine::Debug::DrawRay3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay3D"));
 
 	Plugin::RegisterType = *reinterpret_cast<void (**)(Plugin::NativeObjectFactory)>(GetFunction("Plugin::RegisterType"));
 
@@ -140,6 +141,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
 	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
+	registerObject<Astar>(Plugin::Pathfinder, "Astar");
 
 	/* Finishing up */
 

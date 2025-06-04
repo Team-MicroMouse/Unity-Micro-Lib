@@ -30,6 +30,7 @@ struct v2i {
 
     int lengthSq() const;
     float length() const;
+    v2i explode() const;
 
     v2i operator+(v2i b) const;
     v2i operator-(v2i b) const;
@@ -58,6 +59,7 @@ struct v2f {
     v2f operator-(const v2f & b) const;
     v2f operator*(float b) const;
     v2f operator/(float b) const;
+    v2f rotated(float angle_rad) const;
 };
 
 struct v3i { int32_t x,y,z; };
@@ -90,6 +92,7 @@ struct MapCell {
     bool is_wall_east() const;
     bool is_wall_south() const;
     bool is_wall_west() const;
+    bool is_wall_in_dir(v2i dir) const;
     bool is_wall_highlight() const;
 
     void set_discovered(bool value);
@@ -97,6 +100,7 @@ struct MapCell {
     void set_wall_east(bool value);
     void set_wall_south(bool value);
     void set_wall_west(bool value);
+    void set_wall_in_dir(v2i dir, bool value);
     void set_wall_highlight(bool value);
 };
 

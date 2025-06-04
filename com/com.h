@@ -54,8 +54,8 @@ namespace UnityEngine {
 	{
 		inline void (*DrawRay2D)(v2f start, v2f target, float time, Color color);
 		inline void (*DrawRay3D)(v3f start, v3f target, float time, Color color);
-		inline void (*DrawLine2D)(v2f a, v2f b, float time, Color color);
-		inline void (*DrawLine3D)(v3f a, v3f b, float time, Color color);
+		inline void (*DrawLine2D)(v2f from, v2f to, float time, Color color);
+		inline void (*DrawLine3D)(v3f from, v3f to, float time, Color color);
 	}
 };
 
@@ -98,7 +98,7 @@ namespace Microsim {
 	DLLEXPORT void ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, Map map, RobotPosition robot_position);
 
 	DLLEXPORT void Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, void* data);
-	DLLEXPORT int Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2f target, v2i* path);
+	DLLEXPORT int Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2i target, v2i* path);
 }
 
 //
