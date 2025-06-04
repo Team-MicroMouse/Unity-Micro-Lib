@@ -4,9 +4,9 @@
 
 enum Direction {
     DIR_NORTH,
-    DIR_SOUTH,
     DIR_EAST,
-    DIR_WEST
+    DIR_SOUTH,
+    DIR_WEST,
 };
 
 #endif //DIRECTION_H

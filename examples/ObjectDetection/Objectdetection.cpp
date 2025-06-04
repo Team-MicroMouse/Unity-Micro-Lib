@@ -37,7 +37,10 @@ void Objectdetection::Process(Map map, RobotPosition position) {
     //richtingsvectoren bepalen afhankelijk van waar de robot naar kijkt
     v2i forwardDir, leftDir, rightDir;
 
-    switch (position.angle) {
+    int normalized_angle = ((position.angle % 360) + 360) % 360;
+    int direction = static_cast<int>(round(normalized_angle / 90.0));
+
+    switch (direction) {
         case DIR_NORTH:
             forwardDir = v2i(0, 1);
             leftDir = v2i(-1, 0);
@@ -67,14 +70,9 @@ void Objectdetection::Process(Map map, RobotPosition position) {
 
     }
     // muren tekenen in de map op basis van sensorinput
-    if (front <WALL_THRESHOLD) {
-        map.SetCell(grid_pos + forwardDir, CELL_WALL);
-    }
-    if (left <WALL_THRESHOLD) {
-        map.SetCell(grid_pos + leftDir, CELL_WALL);
-    }
-    if (right <WALL_THRESHOLD) {
-        map.SetCell(grid_pos + rightDir, CELL_WALL);
-    }
+    MapCell* cell = map.get_cell(grid_pos);
+    cell->set_wall_in_dir(forwardDir, front < WALL_THRESHOLD);
+    cell->set_wall_in_dir(leftDir, left < WALL_THRESHOLD);
+    cell->set_wall_in_dir(rightDir, right < WALL_THRESHOLD);
 }
 
