@@ -45,7 +45,7 @@ void Objectdetection::Process(Map map, RobotPosition robot_position) {
     const float lhs_value = static_cast<float>(leftSensor.ReadValue());
     const float rhs_value = static_cast<float>(rightSensor.ReadValue());
 
-    const float angle_rad = static_cast<float>(robot_position.angle) * DEG2RAD;
+    const float angle_rad = static_cast<float>(-robot_position.angle) * DEG2RAD;
 
     const v2f fwd_hit_pos = robot_position.position.toV2f() + (fwd_offset + fwd_dir * fwd_value).rotated(angle_rad);
     const v2f lhs_hit_pos = robot_position.position.toV2f() + (lhs_offset + lhs_dir * lhs_value).rotated(angle_rad);
@@ -54,8 +54,6 @@ void Objectdetection::Process(Map map, RobotPosition robot_position) {
     const v2i fwd_dir_abs = fwd_dir.rotated(angle_rad).explode().normalize().roundToV2i();
     const v2i lhs_dir_abs = lhs_dir.rotated(angle_rad).explode().normalize().roundToV2i();
     const v2i rhs_dir_abs = rhs_dir.rotated(angle_rad).explode().normalize().roundToV2i();
-
-    UnityEngine::LogV2f("lhs-offset", fwd_offset.rotated(angle_rad));
 
     MapCell* cell = map.get_cell(grid_pos);
 
