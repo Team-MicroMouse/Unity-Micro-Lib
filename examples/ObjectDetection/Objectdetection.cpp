@@ -41,8 +41,6 @@ void Objectdetection::Process(Map map, RobotPosition position) {
     int normalized_angle = ((position.angle % 360) + 360) % 360;
     int direction = static_cast<int>(round(normalized_angle / 90.0));
 
-    UnityEngine::Logi("direction", direction);
-    
     switch (direction) {
         case DIR_NORTH:
             forwardDir = v2i(0, 1);
@@ -73,14 +71,10 @@ void Objectdetection::Process(Map map, RobotPosition position) {
 
     }
 
-    UnityEngine::LogV2i("front dir", forwardDir);
-    UnityEngine::Logi("front val", front);
-
     // muren tekenen in de map op basis van sensorinput
     MapCell* cell = map.get_cell(grid_pos);
     cell->set_wall_in_dir(forwardDir, front != -1 && front < WALL_THRESHOLD);
     cell->set_wall_in_dir(leftDir, left != -1 && left < WALL_THRESHOLD);
     cell->set_wall_in_dir(rightDir, right != -1 && right < WALL_THRESHOLD);
-    map.SetCell(grid_pos, cell->value);
 }
 
