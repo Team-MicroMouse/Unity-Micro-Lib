@@ -3,6 +3,7 @@
 #include "Direction.h"
 #include "../../types/types.h"
 #include "../../algorithms/algorithms.h"
+#include "../../com/com.h"
 
 using namespace Microsim;
 
@@ -39,7 +40,8 @@ void Objectdetection::Process(Map map, RobotPosition position) {
 
     int normalized_angle = ((position.angle % 360) + 360) % 360;
     int direction = static_cast<int>(round(normalized_angle / 90.0));
-
+UnityEngine::Logi("direction", direction);
+    
     switch (direction) {
         case DIR_NORTH:
             forwardDir = v2i(0, 1);
