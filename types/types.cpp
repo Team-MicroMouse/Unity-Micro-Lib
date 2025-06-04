@@ -106,10 +106,10 @@ v2f v2f::operator/(float b) const {
     return v2f(x / b, y / b);
 }
 
-v2f v2f::rotated(float angleRad) const {
+v2f v2f::rotated(float angle_rad) const {
     return v2f(
-        x * cos(angleRad) - y * sin(angleRad),
-        x * sin(angleRad) + y * cos(angleRad)
+        x * cos(angle_rad) - y * sin(angle_rad),
+        x * sin(angle_rad) + y * cos(angle_rad)
     );
 }
 
