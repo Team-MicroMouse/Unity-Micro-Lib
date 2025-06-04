@@ -216,5 +216,5 @@ MapCell* Map::get_cell(v2i position) const {
 }
 
 std::size_t v2iHasher::operator()(const v2i& v2i) const {
-    return static_cast<long>(v2i.x) << 32 + static_cast<long>(v2i.y);
+    return (static_cast<long>(v2i.x) << 32) + static_cast<long>(v2i.y);
 }
