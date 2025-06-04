@@ -162,13 +162,6 @@ bool MapCell::is_wall_in_dir(v2i dir) const {
 }
 
 bool MapCell::is_wall_highlight() const { return (value & 1 << 5) == 1 << 5; }
-bool MapCell::is_wall_in_dir(v2i dir) const {
-    int xByte = (static_cast<int>(std::pow(((1 - (dir.x + 1) / 2) + 1) & 3, 2)) << 2) * (dir.x != 0);
-    int yByte = (static_cast<int>(std::pow(((1 - (dir.y + 1) / 2) + 1) & 3, 2)) << 1) * (dir.y != 0);
-    int byte = xByte + yByte;
-    return (value & byte) == byte;
-}
-
 
 void MapCell::set_discovered(bool value) {
     this->value = (this->value & ~(1 << 0)) | (value << 0);

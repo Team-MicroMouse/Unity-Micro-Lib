@@ -94,7 +94,6 @@ struct MapCell {
     bool is_wall_west() const;
     bool is_wall_in_dir(v2i dir) const;
     bool is_wall_highlight() const;
-    bool is_wall_in_dir(v2i dir) const;
 
     void set_discovered(bool value);
     void set_wall_north(bool value);
