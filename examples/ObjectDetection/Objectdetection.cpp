@@ -11,11 +11,10 @@ using namespace Microsim;
 #include <iostream>
 #endif
 
-#define WALL_THRESHOLD 400 // Afstand (in mm) die telt als de muur
-#define CURR_CELL_SIZE_F 1000.0f
+#define WALL_THRESHOLD 100 // Afstand (in mm) die telt als de muur
 
 bool is_wall_of_cell(v2i grid_pos, v2f wall_hit_pos) {
-    const v2i wall_grid_pos = (wall_hit_pos / CURR_CELL_SIZE_F).roundToV2i();
+    const v2i wall_grid_pos = (wall_hit_pos / CELL_SIZE_F).roundToV2i();
     return grid_pos == wall_grid_pos;
 }
 
@@ -32,11 +31,11 @@ void Objectdetection::LogSensors(int front, int left, int right) {
 #endif
 
 void Objectdetection::Process(Map map, RobotPosition robot_position) {
-    const v2i grid_pos = (robot_position.position / CURR_CELL_SIZE_F).roundToV2i();
+    const v2i grid_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
 
-    const v2f fwd_offset = v2f(0, 100);
-    const v2f lhs_offset = v2f(-100, 100);
-    const v2f rhs_offset = v2f(100, 100);
+    const v2f fwd_offset = v2f(0, 20);
+    const v2f lhs_offset = v2f(-20, 20);
+    const v2f rhs_offset = v2f(20, 20);
 
     const v2f fwd_dir = v2f(0,1);
     const v2f lhs_dir = v2f(-1,0);
@@ -61,21 +60,21 @@ void Objectdetection::Process(Map map, RobotPosition robot_position) {
     MapCell* cell = map.get_cell(grid_pos);
 
     if (fwd_value != -1) {
-        UnityEngine::Debug::DrawLine2D((robot_position.position.toV2f() + fwd_offset.rotated(angle_rad)) / CURR_CELL_SIZE_F, fwd_hit_pos / CURR_CELL_SIZE_F, 1, Color::red());
+        UnityEngine::Debug::DrawLine2D((robot_position.position.toV2f() + fwd_offset.rotated(angle_rad)) / 1000, fwd_hit_pos / 1000, 1, Color::red());
         cell->set_wall_in_dir(fwd_dir_abs, is_wall_of_cell(grid_pos, fwd_hit_pos));
     } else {
         cell->set_wall_in_dir(fwd_dir_abs, false);
     }
 
     if (lhs_value != -1) {
-        UnityEngine::Debug::DrawLine2D((robot_position.position.toV2f() + lhs_offset.rotated(angle_rad)) / CURR_CELL_SIZE_F, lhs_hit_pos / CURR_CELL_SIZE_F, 1, Color::green());
+        UnityEngine::Debug::DrawLine2D((robot_position.position.toV2f() + lhs_offset.rotated(angle_rad)) / 1000, lhs_hit_pos / 1000, 1, Color::green());
         cell->set_wall_in_dir(lhs_dir_abs, is_wall_of_cell(grid_pos, lhs_hit_pos));
     } else {
         cell->set_wall_in_dir(lhs_dir_abs, false);
     }
 
     if (rhs_value != -1) {
-        UnityEngine::Debug::DrawLine2D((robot_position.position.toV2f() + rhs_offset.rotated(angle_rad)) / CURR_CELL_SIZE_F, rhs_hit_pos / CURR_CELL_SIZE_F, 1, Color::blue());
+        UnityEngine::Debug::DrawLine2D((robot_position.position.toV2f() + rhs_offset.rotated(angle_rad)) / 1000, rhs_hit_pos / 1000, 1, Color::blue());
         cell->set_wall_in_dir(rhs_dir_abs, is_wall_of_cell(grid_pos, rhs_hit_pos));
     } else {
         cell->set_wall_in_dir(rhs_dir_abs, false);
