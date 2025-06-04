@@ -24,6 +24,6 @@ add_library(Unity_Link_Test SHARED library.cpp
         examples/Floodfill/Floodfill.h
         examples/FloodfillStack/FloodfillStack.cpp
         examples/FloodfillStack/FloodfillStack.h
-        examples/ObjectDetection/Objectdetection.cpp
-        examples/ObjectDetection/Objectdetection.h
+        examples/Astar/Astar.cpp
+        examples/Astar/Astar.h
 )
