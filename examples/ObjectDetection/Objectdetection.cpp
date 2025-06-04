@@ -11,7 +11,7 @@ using namespace Microsim;
 #include <iostream>
 #endif
 
-#define  WALL_THRESHOLD 300 // Afstand (in mm) die telt als de muur
+#define  WALL_THRESHOLD 80 // Afstand (in mm) die telt als de muur
 #define CELL_WALL 1
 
 void Objectdetection::Setup(Microsim::Robot robot, void *data) {
@@ -40,7 +40,8 @@ void Objectdetection::Process(Map map, RobotPosition position) {
 
     int normalized_angle = ((position.angle % 360) + 360) % 360;
     int direction = static_cast<int>(round(normalized_angle / 90.0));
-UnityEngine::Logi("direction", direction);
+
+    UnityEngine::Logi("direction", direction);
     
     switch (direction) {
         case DIR_NORTH:
@@ -71,10 +72,15 @@ UnityEngine::Logi("direction", direction);
 
 
     }
+
+    UnityEngine::LogV2i("front dir", forwardDir);
+    UnityEngine::Logi("front val", front);
+
     // muren tekenen in de map op basis van sensorinput
     MapCell* cell = map.get_cell(grid_pos);
-    cell->set_wall_in_dir(forwardDir, front < WALL_THRESHOLD);
-    cell->set_wall_in_dir(leftDir, left < WALL_THRESHOLD);
-    cell->set_wall_in_dir(rightDir, right < WALL_THRESHOLD);
+    cell->set_wall_in_dir(forwardDir, front != -1 && front < WALL_THRESHOLD);
+    cell->set_wall_in_dir(leftDir, left != -1 && left < WALL_THRESHOLD);
+    cell->set_wall_in_dir(rightDir, right != -1 && right < WALL_THRESHOLD);
+    map.SetCell(grid_pos, cell->value);
 }
 
