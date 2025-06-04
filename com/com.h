@@ -54,8 +54,8 @@ namespace UnityEngine {
 	{
 		inline void (*DrawRay2D)(v2f start, v2f target, float time, Color color);
 		inline void (*DrawRay3D)(v3f start, v3f target, float time, Color color);
-		inline void (*DrawLine2D)(v2f a, v2f b, float time, Color color);
-		inline void (*DrawLine3D)(v3f a, v3f b, float time, Color color);
+		inline void (*DrawLine2D)(v2f from, v2f to, float time, Color color);
+		inline void (*DrawLine3D)(v3f from, v3f to, float time, Color color);
 	}
 };
 

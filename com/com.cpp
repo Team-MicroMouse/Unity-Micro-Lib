@@ -102,10 +102,10 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	UnityEngine::LogV2f = *reinterpret_cast<void (**)(const char *, v2f)>(GetFunction("UnityEngine::LogV2f"));
 	UnityEngine::LogV2i = *reinterpret_cast<void (**)(const char *, v2i)>(GetFunction("UnityEngine::LogV2i"));
 
-	UnityEngine::Debug::DrawLine2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay2D"));
-	UnityEngine::Debug::DrawLine3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay3D"));
-	UnityEngine::Debug::DrawRay2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine2D"));
-	UnityEngine::Debug::DrawRay3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine3D"));
+	UnityEngine::Debug::DrawLine2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine2D"));
+	UnityEngine::Debug::DrawLine3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine3D"));
+	UnityEngine::Debug::DrawRay2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay2D"));
+	UnityEngine::Debug::DrawRay3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay3D"));
 
 	Plugin::RegisterType = *reinterpret_cast<void (**)(Plugin::NativeObjectFactory)>(GetFunction("Plugin::RegisterType"));
 
