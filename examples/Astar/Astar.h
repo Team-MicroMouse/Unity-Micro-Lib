@@ -1,6 +1,7 @@
 #ifndef ASTAR_H
 #define ASTAR_H
 #include "../../algorithms/algorithms.h"
+#include "list"
 
 class Astar : IPathfinder {
     int (*h)(v2i a, v2i b);
@@ -10,9 +11,9 @@ public:
 
     void Setup(Microsim::Robot robot, void* data) override;
     int Pathfind(Map map, RobotPosition robot_position, v2i target, v2i* path) override;
+    struct NodeData;
 
 private:
-    struct NodeData;
     static void insert_ordered(std::list<NodeData*>& list, NodeData* node_data);
     void check_position(
         std::list<NodeData*>& nodes_to_process,
