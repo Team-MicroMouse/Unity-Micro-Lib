@@ -9,11 +9,10 @@
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
 #include "../examples/ObjectDetection/Objectdetection.h"
+#include "../examples/Tawc/Tawc.h"
 #include "../examples/WallFollower/WallFollowerRobotcontroller.h"
 #include "../microsim/microsim.h"
 
-class Objectdetection;
-class FloodfillStack;
 Plugin::CreateNativeObject* nativeObjectConstructorList;
 int nativeObjectListPtr;
 
@@ -142,6 +141,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 
 	registerObject<Objectdetection>(Plugin::ObjectDetector, "Objectdetection");
+	registerObject<Tawc>(Plugin::ObjectDetector, "Tawc");
 
 	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
 	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");

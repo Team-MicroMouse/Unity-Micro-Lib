@@ -26,6 +26,8 @@ add_library(Unity_Link_Test SHARED library.cpp
         examples/FloodfillStack/FloodfillStack.h
         examples/Astar/Astar.cpp
         examples/Astar/Astar.h
-        examples/MMARC/MMARC.cpp
-        examples/MMARC/MMARC.h
+        examples/MMarc/MMarc.cpp
+        examples/MMarc/MMarc.h
+        examples/Tawc/Tawc.cpp
+        examples/Tawc/Tawc.h
 )
