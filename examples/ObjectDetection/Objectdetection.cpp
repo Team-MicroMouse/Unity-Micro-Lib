@@ -3,7 +3,6 @@
 #include "Direction.h"
 #include "../../types/types.h"
 #include "../../algorithms/algorithms.h"
-#include "../../com/com.h"
 
 using namespace Microsim;
 

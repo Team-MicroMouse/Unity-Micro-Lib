@@ -28,6 +28,6 @@ add_library(Unity_Link_Test SHARED library.cpp
         examples/Astar/Astar.h
         examples/MMarc/MMarc.cpp
         examples/MMarc/MMarc.h
-        examples/Tawc/Tawc.cpp
-        examples/Tawc/Tawc.h
+        examples/Tawd/Tawd.cpp
+        examples/Tawd/Tawd.h
 )

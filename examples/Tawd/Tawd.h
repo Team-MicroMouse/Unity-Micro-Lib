@@ -1,11 +1,11 @@
 
-#ifndef OBJECTDETECTION_H
-#define OBJECTDETECTION_H
+#ifndef TAWD_H
+#define TAWD_H
 
 #include "../../algorithms/algorithms.h"
 #include "../../types/types.h"
 
-class Tawc : public IObjectDetectorAlgorithm {
+class Tawd : IObjectDetectorAlgorithm {
 public:
     void Setup(Microsim::Robot robot, void* data)override;
     void Process(Map map, RobotPosition robot_position)override;
@@ -14,9 +14,5 @@ private:
     Microsim::Sensor_i32 fwdSensor = {};
     Microsim::Sensor_i32 rightSensor = {};
     Microsim::Sensor_i32 leftSensor = {};
-
-#ifdef DEBUG_MODE
-    void LogSensors(int front, int left, int right);
-#endif
 };
-#endif //OBJECTDETECTION_H
+#endif //TAWD_H

@@ -9,7 +9,8 @@
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
 #include "../examples/ObjectDetection/Objectdetection.h"
-#include "../examples/Tawc/Tawc.h"
+#include "../examples/Tawd/Tawd.h"
+#include "../examples/Tawd/Tawd.h"
 #include "../examples/WallFollower/WallFollowerRobotcontroller.h"
 #include "../microsim/microsim.h"
 
@@ -75,7 +76,7 @@ void Microsim::RobotController_Loop(IRobotController* robotController, float dtf
 	}
 }
 
-template<typename T> void registerObject(const Plugin::NativeObjectType type, const char* name) {
+template<typename T> void register_object(const Plugin::NativeObjectType type, const char* name) {
 	const Plugin::CreateNativeObject fn = [&] { return new T(); };
 	const uint32_t idx = nativeObjectListPtr;
 	nativeObjectConstructorList[nativeObjectListPtr] = fn;
@@ -137,15 +138,15 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 
 	UnityEngine::Log("Registering Native Objects");
 
-	registerObject<MMarc>(Plugin::RobotController, "MMarc");
-	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
+	register_object<MMarc>(Plugin::RobotController, "MMarc");
+	register_object<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
 
-	registerObject<Objectdetection>(Plugin::ObjectDetector, "Objectdetection");
-	registerObject<Tawc>(Plugin::ObjectDetector, "Tawc");
+	register_object<Objectdetection>(Plugin::ObjectDetector, "Objectdetection");
+	register_object<Tawd>(Plugin::ObjectDetector, "Tawd");
 
-	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
-	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
-	registerObject<Astar>(Plugin::Pathfinder, "Astar");
+	register_object<Floodfill>(Plugin::Pathfinder, "Flood Fill");
+	register_object<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
+	register_object<Astar>(Plugin::Pathfinder, "Astar");
 
 	/* Finishing up */
 

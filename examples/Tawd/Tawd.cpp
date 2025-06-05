@@ -1,4 +1,4 @@
-#include "Tawc.h"
+#include "Tawd.h"
 
 #include "../../types/types.h"
 #include "../../algorithms/algorithms.h"
@@ -6,30 +6,18 @@
 
 using namespace Microsim;
 
-#ifdef DEBUG_MODE
-#include <iostream>
-#endif
-
-#define WALL_THRESHOLD 100 // Afstand (in mm) die telt als de muur
-
 bool is_wall_of_cell(v2i grid_pos, v2f wall_hit_pos) {
     const v2i wall_grid_pos = (wall_hit_pos / CELL_SIZE_F).roundToV2i();
     return grid_pos == wall_grid_pos;
 }
 
-void Tawc::Setup(Robot robot, void *data) {
+void Tawd::Setup(Robot robot, void *data) {
     fwdSensor = robot.FindComponent(Guid(4764948050219179759u, 13563840741769542562u)).ToSensor_i32();
     leftSensor = robot.FindComponent(Guid(5421639628147193954u, 6046799433377730472u)).ToSensor_i32();
     rightSensor = robot.FindComponent(Guid(5124586844430470358u, 6050595459198776716u)).ToSensor_i32();
 }
 
-#ifdef DEBUG_MODE
-void Objectdetection::LogSensors(int front, int left, int right) {
-    std::cout << "Sensor readings - Front: " << front << ", Left: " << left << ", Right: " << right << std::endl;
-}
-#endif
-
-void Tawc::Process(Map map, RobotPosition robot_position) {
+void Tawd::Process(Map map, RobotPosition robot_position) {
     const v2i grid_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
 
     const v2f fwd_offset = v2f(0, 20);
