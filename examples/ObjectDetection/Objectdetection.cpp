@@ -14,7 +14,7 @@ using namespace Microsim;
 #define  WALL_THRESHOLD 80 // Afstand (in mm) die telt als de muur
 #define CELL_WALL 1
 
-void Objectdetection::Setup(Microsim::Robot robot, void *data) {
+void Objectdetection::Setup(Robot robot, void *data) {
     fwdSensor = robot.FindComponent(Guid(4764948050219179759u, 13563840741769542562u)).ToSensor_i32();
     leftSensor = robot.FindComponent(Guid(5421639628147193954u, 6046799433377730472u)).ToSensor_i32();
     rightSensor = robot.FindComponent(Guid(5124586844430470358u, 6050595459198776716u)).ToSensor_i32();

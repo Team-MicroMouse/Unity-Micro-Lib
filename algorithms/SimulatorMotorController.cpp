@@ -3,7 +3,7 @@
 #include "../com/com.h"
 
 
-SimulatorMotorController::SimulatorMotorController(const char *algorithm) {
+SimulatorMotorController::SimulatorMotorController(const char *algorithm) : Object() {
     handle = Microsim::CreateSimulatorAlgorithm(algorithm);
 }
 

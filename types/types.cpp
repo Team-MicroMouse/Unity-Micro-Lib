@@ -7,6 +7,8 @@ v2i v2i::up() { return v2i(0, 1); }
 v2i v2i::right() { return v2i(1, 0); }
 v2i v2i::down() { return v2i(0, -1); }
 v2i v2i::left() { return v2i(-1, 0); }
+v2i v2i::zero() { return v2i(0, 0); }
+v2i v2i::one() { return v2i(1, 1); }
 
 v2f v2i::toV2f() const
 {

@@ -5,6 +5,7 @@
 
 #include "../algorithms/algorithms.h"
 #include "../examples/Astar/Astar.h"
+#include "../examples/MMarc/MMarc.h"
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
 #include "../examples/ObjectDetection/Objectdetection.h"
@@ -137,8 +138,11 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 
 	UnityEngine::Log("Registering Native Objects");
 
-	registerObject<Objectdetection>(Plugin::ObjectDetector, "Objectdetection");
+	registerObject<MMarc>(Plugin::RobotController, "MMarc");
 	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
+
+	registerObject<Objectdetection>(Plugin::ObjectDetector, "Objectdetection");
+
 	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
 	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
 	registerObject<Astar>(Plugin::Pathfinder, "Astar");

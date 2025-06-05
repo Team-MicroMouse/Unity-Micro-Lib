@@ -25,6 +25,8 @@ struct v2i {
     static v2i right();
     static v2i down();
     static v2i left();
+    static v2i zero();
+    static v2i one();
 
     v2f toV2f() const;
 
