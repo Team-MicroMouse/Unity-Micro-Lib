@@ -54,6 +54,7 @@ struct v2f {
     v2i roundToV2i() const;
     v2f explode() const;
     v2f normalize() const;
+    float dot(v2f rhs) const;
 
     bool operator==(const v2f & b) const = default;
     v2f operator+(const v2i & b) const;

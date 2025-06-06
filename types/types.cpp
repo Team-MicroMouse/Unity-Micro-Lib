@@ -88,6 +88,10 @@ v2f v2f::normalize() const {
     return v2f(x / l, y / l);
 }
 
+float v2f::dot(v2f rhs) const {
+    return x * rhs.x + y * rhs.y;
+}
+
 v2f v2f::operator+(const v2i & b) const {
     return v2f(x + b.x, y + b.y);
 }
