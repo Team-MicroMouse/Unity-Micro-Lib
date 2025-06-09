@@ -33,13 +33,16 @@ struct v2i {
     int lengthSq() const;
     float length() const;
     v2i explode() const;
+    v2i abs() const;
 
     v2i operator+(v2i b) const;
+    v2i operator-() const;
     v2i operator-(v2i b) const;
     v2i operator*(int b) const;
     v2i operator/(int b) const;
     v2f operator/(float b) const;
     bool operator==(v2i b) const;
+    v2i operator%(int b) const;
 };
 
 struct v2f {
@@ -55,6 +58,8 @@ struct v2f {
     v2f explode() const;
     v2f normalize() const;
     float dot(v2f rhs) const;
+    float det(v2f rhs) const;
+    float signedAngle(v2f rhs) const;
 
     bool operator==(const v2f & b) const = default;
     v2f operator+(const v2i & b) const;
@@ -70,6 +75,7 @@ struct v3f
 {
     float x,y,z;
     v3f operator/(double b) const;
+    v3f operator+(v3f b) const;
 };
 struct Guid { uint64_t a, b; };
 

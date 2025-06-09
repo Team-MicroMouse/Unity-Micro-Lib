@@ -1,5 +1,6 @@
 #include "types.h"
 
+#include <algorithm>
 #include <cmath>
 
 #include "../com/com.h"
@@ -24,12 +25,20 @@ float v2i::length() const {
 }
 
 v2i v2i::explode() const {
-    int xAbs = abs(x), yAbs = abs(y);
+    int xAbs = std::abs(x), yAbs = std::abs(y);
     return v2i(x * (xAbs > yAbs), y * (yAbs > xAbs));
+}
+
+v2i v2i::abs() const {
+    return v2i(std::abs(x), std::abs(y));
 }
 
 v2i v2i::operator+(v2i b) const {
     return v2i(x + b.x, y + b.y);
+}
+
+v2i v2i::operator-() const {
+    return v2i(-x, -y);
 }
 
 v2i v2i::operator-(const v2i b) const {
@@ -53,6 +62,10 @@ v2f v2i::operator/(const float b) const {
 
 bool v2i::operator==(v2i b) const {
     return x == b.x && y == b.y;
+}
+
+v2i v2i::operator%(int b) const {
+    return v2i(x % b, y % b);
 }
 
 v2f v2f::fromAngle(const int angle) {
@@ -92,6 +105,15 @@ float v2f::dot(v2f rhs) const {
     return x * rhs.x + y * rhs.y;
 }
 
+float v2f::det(v2f rhs) const {
+    return x * rhs.y - y * rhs.x;
+}
+
+float v2f::signedAngle(v2f rhs) const
+{
+    return atan2(det(rhs), dot(rhs));
+}
+
 v2f v2f::operator+(const v2i & b) const {
     return v2f(x + b.x, y + b.y);
 }
@@ -127,6 +149,10 @@ v3f v2f::toFlatV3f() const
 v3f v3f::operator/(double b) const
 {
     return v3f(x / b, y / b, z / b);
+}
+
+v3f v3f::operator+(v3f b) const {
+    return v3f(x + b.x, y + b.y, z + b.z);
 }
 
 Color Color::black()
