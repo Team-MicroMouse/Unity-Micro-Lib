@@ -13,11 +13,15 @@ void process_wall_hit(float sensor_value, v2f sensor_offset, v2f sensor_dir, Rob
     const v2f hit_pos = robot_position.position.toV2f() + (sensor_offset + sensor_dir * sensor_value).rotated(angle_rad);
     const v2i dir_global = sensor_dir.rotated(angle_rad).explode().normalize().roundToV2i();
 
+    UnityEngine::Debug::DrawRay3D(
+        (robot_position.position.toV2f() + sensor_offset.rotated(angle_rad)).toFlatV3f() / 1000 + v3f(0,0.1,0),
+        (sensor_dir.rotated(angle_rad) * sensor_value).toFlatV3f() / 1000 + v3f(0,0.1,0),
+        0, Color::green());
+
 
     if (sensor_value == -1) {
         v2f sensor_pos = robot_position.position.toV2f() + sensor_offset.rotated(angle_rad);
         v2f sensor_dir_rotated = sensor_dir.rotated(angle_rad);
-        v2i sensor_grid_pos = (sensor_pos / CELL_SIZE_F).roundToV2i();
         v2f sensor_local_pos = sensor_pos - grid_pos.toV2f() * CELL_SIZE_F;
         v2f dir_to_wall = sensor_dir_rotated.explode().normalize();
         v2f dir_along_wall = v2f(dir_to_wall.y, -dir_to_wall.x);
@@ -26,14 +30,18 @@ void process_wall_hit(float sensor_value, v2f sensor_offset, v2f sensor_dir, Rob
         float len_across_wall = dir_to_wall.signedAngle(sensor_dir_rotated);
         v2f hit_pos = sensor_pos + dir_to_wall * len_to_wall + dir_along_wall * len_across_wall;
 
-        UnityEngine::Debug::DrawLine2D(sensor_pos / 1000, hit_pos / 1000, 1, Color::green());
-        UnityEngine::Debug::DrawRay3D(hit_pos.toFlatV3f() / 1000 + v3f(0,0.2f,0), v3f(0,1,0), 1, Color::red());
+        UnityEngine::Debug::DrawLine2D(sensor_pos / 1000, hit_pos / 1000, 0, Color::green());
+        UnityEngine::Debug::DrawRay3D(hit_pos.toFlatV3f() / 1000 + v3f(0,0.2f,0), v3f(0,1,0), 0, Color::red());
         const v2i halfs_grid_pos = (hit_pos / (CELL_SIZE_F / 2)).roundToV2i() + v2i::one();
 
         const v2i idx = halfs_grid_pos % 2;
         const v2i dir = v2i(idx.y, idx.x);
         const v2i cell_1 = halfs_grid_pos / 2;
         const v2i cell_2 = halfs_grid_pos / 2 - dir;
+
+        if (idx.x == idx.y) {
+            return;
+        }
 
         UnityEngine::LogV2i("Cell 1", cell_1);
         UnityEngine::LogV2i("Cell 2", cell_2);
@@ -45,20 +53,12 @@ void process_wall_hit(float sensor_value, v2f sensor_offset, v2f sensor_dir, Rob
         if (map.is_in_bounds(cell_2)) {
             map.get_cell(cell_2)->set_wall_in_dir(dir_to_wall.roundToV2i().abs(), false);
         }
-
-        // v2f dir_sensor_pos_to_wall_center = dir_to_wall - sensor_local_pos;
-        //
-        // float angle = 0;
-        // v2f sensor_hit_pos = ;
-        //
-        // MapCell* cell = map.get_cell(grid_pos);
-        // cell->set_wall_in_dir(dir_global, false);
         return;
     }
 
 
     const v2i halfs_grid_pos = (hit_pos / (CELL_SIZE_F / 2)).roundToV2i() + v2i::one();
-    UnityEngine::Debug::DrawLine2D((robot_position.position.toV2f() + sensor_offset.rotated(angle_rad)) / 1000, hit_pos / 1000, 1, Color::red());
+    UnityEngine::Debug::DrawLine2D((robot_position.position.toV2f() + sensor_offset.rotated(angle_rad)) / 1000, hit_pos / 1000, 0, Color::red());
 
     const v2i idx = halfs_grid_pos % 2;
     if (idx.x == idx.y) {
@@ -69,11 +69,14 @@ void process_wall_hit(float sensor_value, v2f sensor_offset, v2f sensor_dir, Rob
     const v2i cell_1 = halfs_grid_pos / 2;
     const v2i cell_2 = halfs_grid_pos / 2 - dir;
 
+    UnityEngine::LogV2i("Cell 1", cell_1);
+    UnityEngine::LogV2i("Cell 2", cell_2);
+
     if (map.is_in_bounds(cell_1)) {
-        map.get_cell(cell_1)->set_wall_in_dir(-dir_global.abs(), true);
+        map.get_cell(cell_1)->set_wall_in_dir(-dir.abs(), true);
     }
     if (map.is_in_bounds(cell_2)) {
-        map.get_cell(cell_2)->set_wall_in_dir(dir_global.abs(), true);
+        map.get_cell(cell_2)->set_wall_in_dir(dir.abs(), true);
     }
 }
 
@@ -84,8 +87,6 @@ void Tawd::Setup(Robot robot, void *data) {
 }
 
 void Tawd::Process(Map map, RobotPosition robot_position) {
-    const v2i grid_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
-
     const v2f fwd_offset = v2f(0, 20);
     const v2f lhs_offset = v2f(-20, 20);
     const v2f rhs_offset = v2f(20, 20);
