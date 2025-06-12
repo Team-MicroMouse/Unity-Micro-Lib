@@ -75,27 +75,6 @@ void process_wall_hit(float sensor_value, v2f sensor_offset, v2f sensor_dir, Rob
     if (map.is_in_bounds(cell_2)) {
         map.get_cell(cell_2)->set_wall_in_dir(dir_global.abs(), true);
     }
-
-
-     // const v2f robot_position_f = robot_position.toV2f();
-     // const v2i grid_pos = (robot_position_f / CELL_SIZE_F).roundToV2i();
-     // const v2f robot_dir = wall_hit_pos - (robot_position_f + ray_offset);
-     //
-     // const v2f dir_to_wall = (wall_hit_pos - grid_pos.toV2f() * 180).explode().normalize();
-     // const v2f dir_along_wall = dir_to_wall.rotated(90 * DEG2RAD);
-     // const float pos_along_wall = dir_along_wall.dot(robot_dir);
-     // const float max_hit_length = CELL_SIZE_F / 2 + dir_to_wall.dot((robot_position_f + ray_offset) - grid_pos.toV2f() * 180);
-     // const float hit_length = dir_to_wall.dot(robot_dir) - dir_to_wall.dot(ray_offset);
-     //
-     // UnityEngine::Logf("max_len", max_hit_length);
-     // UnityEngine::Logf("len", hit_length);
-     // UnityEngine::Logf("dpr", pos_along_wall);
-     //
-     // if (abs(pos_along_wall > CELL_SIZE_F * .3f)) {
-     //     return  2;
-     // }
-     //
-     // return hit_length < max_hit_length;
 }
 
 void Tawd::Setup(Robot robot, void *data) {
