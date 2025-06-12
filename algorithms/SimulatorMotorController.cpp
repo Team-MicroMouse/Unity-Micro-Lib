@@ -43,6 +43,12 @@ void SimulatorMotorController::MoveDistance(float distance) {
     Microsim::SimMotorController_MoveDistance(handle, distance);
 }
 
+void SimulatorMotorController::MoveToGridPos(v2i target, float cellSize)
+{
+    Microsim::SimMotorController_MoveToGridPos(handle, target, cellSize);
+}
+
+
 void SimulatorMotorController::RotateToAngle(int wantedAngle) {
     UnityEngine::Logi("Wanted Angle:", wantedAngle);
     Microsim::SimMotorController_RotateToAngle(handle, wantedAngle);
