@@ -44,20 +44,20 @@ namespace Microsim {
 };
 
 // Interacting with the engine
-namespace UnityEngine {
+namespace Debug {
 	inline void (*Log)(const char* message);
 	inline void (*Logi)(const char* message, int value);
 	inline void (*Logf)(const char* message, float value);
 	inline void (*LogV2i)(const char* message, v2i value);
 	inline void (*LogV2f)(const char* message, v2f value);
 
-	namespace Debug
-	{
-		inline void (*DrawRay2D)(v2f start, v2f target, float time, Color color);
-		inline void (*DrawRay3D)(v3f start, v3f target, float time, Color color);
-		inline void (*DrawLine2D)(v2f from, v2f to, float time, Color color);
-		inline void (*DrawLine3D)(v3f from, v3f to, float time, Color color);
-	}
+	inline void (*DrawRay2D)(v2f start, v2f target, float time, Color color);
+	inline void (*DrawRay3D)(v3f start, v3f target, float time, Color color);
+	inline void (*DrawLine2D)(v2f from, v2f to, float time, Color color);
+	inline void (*DrawLine3D)(v3f from, v3f to, float time, Color color);
+
+	inline void (*DisplayMap)(Map map);
+	inline void (*ClearMap)();
 };
 
 

@@ -14,7 +14,8 @@ public:
 	enum MoveState : uint32_t {
             Idle,
             Turning,
-            Moving
+            Moving,
+			MovingGridPos
 	};
 
 	virtual ~IMotorController() = default;

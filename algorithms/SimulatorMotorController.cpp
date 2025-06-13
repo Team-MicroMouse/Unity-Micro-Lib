@@ -50,7 +50,7 @@ void SimulatorMotorController::MoveToGridPos(v2i target, float cellSize)
 
 
 void SimulatorMotorController::RotateToAngle(int wantedAngle) {
-    UnityEngine::Logi("Wanted Angle:", wantedAngle);
+    Debug::Logi("Wanted Angle:", wantedAngle);
     Microsim::SimMotorController_RotateToAngle(handle, wantedAngle);
 }
 

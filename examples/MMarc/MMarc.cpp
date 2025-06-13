@@ -1,11 +1,13 @@
 #include "MMarc.h"
 
+#include "../../com/com.h"
 #include "../Astar/Astar.h"
 #include "../Floodfill/Floodfill.h"
 #include "../ObjectDetection/Objectdetection.h"
+#include "../Tawd/Tawd.h"
 
 void MMarc::Setup(Microsim::Robot robot, void* data) {
-    object_detector = new Objectdetection();
+    object_detector = reinterpret_cast<IObjectDetectorAlgorithm*>(new Tawd());
     motor_controller = reinterpret_cast<IMotorController*>(new SimulatorMotorController("DefaultMotorController"));
     position_tracker = reinterpret_cast<IPositionTracker*>(new SimulatorPositionTracker("DefaultPositionTracker"));
     astar = reinterpret_cast<IPathfinder*>(new Astar());
@@ -17,7 +19,7 @@ void MMarc::Setup(Microsim::Robot robot, void* data) {
     };
 
     object_detector->Setup(robot, nullptr);
-    position_tracker->Setup(robot, nullptr);
+    motor_controller->Setup(robot, nullptr);
     position_tracker->Setup(robot, nullptr);
     astar->Setup(robot, nullptr);
     floodfill->Setup(robot, nullptr);
@@ -27,11 +29,19 @@ void MMarc::Setup(Microsim::Robot robot, void* data) {
     path_size = 0;
 
     state = ResetMemory;
+
+    motor_controller->SetGyroNull();
+    motor_controller->SetRpm(40);
 }
 
 void MMarc::Loop(float dtf) {
+    Debug::Log("-- begin --");
+
     position_tracker->Process(&robot_position);
     object_detector->Process(map, robot_position);
+
+    Debug::Logi("State:", state);
+    Debug::Logi("Motor:", motor_controller->GetMoveState());
 
     switch (state) {
     case ResetMemory:
@@ -103,7 +113,10 @@ void MMarc::Loop(float dtf) {
         break;
     }
 
+    Debug::Logi("Motor pre update:", motor_controller->GetMoveState());
     motor_controller->UpdateMovement(dtf, robot_position);
+    Debug::Logi("Motor after update:", motor_controller->GetMoveState());
+    Debug::Log("-- end --");
 }
 
 MMarc::~MMarc() {
@@ -117,10 +130,16 @@ MMarc::~MMarc() {
 
 bool MMarc::explore_loop() {
     if (motor_controller->GetMoveState() != IMotorController::Idle) {
+        Debug::Log("Moving");
         return true;
     }
 
+    v2i robot_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
+    map.get_cell(robot_pos)->set_discovered(true);
+    Debug::DisplayMap(map);
+
     if (path_index >= path_size) {
+        Debug::Log("Making new path");
         path_size = floodfill->Pathfind(map, robot_position, v2i::zero(), path);
         path_index = 1;
         if (path_size == -1) {
@@ -129,7 +148,10 @@ bool MMarc::explore_loop() {
     }
 
     v2i target = path[path_index];
-    // TODO: Send move command
+    Debug::LogV2i("Moving to new position ", target);
+    Debug::Logi("Path Size", path_size);
+    Debug::Logi("Path Index", path_index);
+    motor_controller->MoveToGridPos(target, CELL_SIZE_F);
     path_index++;
     return true;
 }
@@ -170,7 +192,7 @@ bool MMarc::move_to_point_loop(v2i point) {
     }
 
     v2i target = path[path_index];
-    // TODO: Send move command
+    motor_controller->MoveToGridPos(target, CELL_SIZE_F);
     path_index++;
     return true;
 }
@@ -181,4 +203,10 @@ void MMarc::reset_memory() {
         path[i] = v2i::zero();
         map.cells[i] = MapCell();
     }
+
+    map.get_cell(v2i::zero())->set_discovered(true);
+    map.get_cell(v2i::zero())->set_wall_north(true);
+    map.get_cell(v2i::zero())->set_wall_east(true);
+    map.get_cell(v2i::zero())->set_wall_south(true);
+    map.get_cell(v2i::zero())->set_wall_west(true);
 }
