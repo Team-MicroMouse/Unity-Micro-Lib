@@ -79,9 +79,9 @@ void Tawd::Setup(Robot robot, void *data) {
 }
 
 void Tawd::Process(Map map, RobotPosition robot_position) {
-    const v2f fwd_offset = v2f(0, 20);
-    const v2f lhs_offset = v2f(-20, 20);
-    const v2f rhs_offset = v2f(20, 20);
+    const v2f fwd_offset = v2f(0, 67.5);
+    const v2f lhs_offset = v2f(-25.8, 58.3);
+    const v2f rhs_offset = v2f(25.8, 58.3);
 
     const v2f fwd_dir = v2f(0,1);
     const v2f lhs_dir = v2f(-1,0);
