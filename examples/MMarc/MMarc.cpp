@@ -39,6 +39,10 @@ void MMarc::Loop(float dtf) {
 
     position_tracker->Process(&robot_position);
     object_detector->Process(map, robot_position);
+    Debug::LogV2i("Grid Pos", (robot_position.position / CELL_SIZE_F).roundToV2i());
+    Debug::DrawRay3D(
+        ((robot_position.position / CELL_SIZE_F).roundToV2i().toV2f() * CELL_SIZE_F / 1000).toFlatV3f(),
+        v3f(0, 1, 0), 0, Color::blue());
 
     Debug::Logi("State:", state);
     Debug::Logi("Motor:", motor_controller->GetMoveState());
@@ -113,9 +117,7 @@ void MMarc::Loop(float dtf) {
         break;
     }
 
-    Debug::Logi("Motor pre update:", motor_controller->GetMoveState());
     motor_controller->UpdateMovement(dtf, robot_position);
-    Debug::Logi("Motor after update:", motor_controller->GetMoveState());
     Debug::Log("-- end --");
 }
 
@@ -205,8 +207,8 @@ void MMarc::reset_memory() {
     }
 
     map.get_cell(v2i::zero())->set_discovered(true);
-    map.get_cell(v2i::zero())->set_wall_north(true);
-    map.get_cell(v2i::zero())->set_wall_east(true);
+    map.get_cell(v2i::zero())->set_wall_north(false);
+    map.get_cell(v2i::zero())->set_wall_east(false);
     map.get_cell(v2i::zero())->set_wall_south(true);
     map.get_cell(v2i::zero())->set_wall_west(true);
 }
