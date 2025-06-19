@@ -132,12 +132,11 @@ MMarc::~MMarc() {
 
 bool MMarc::explore_loop() {
     if (motor_controller->GetMoveState() != IMotorController::Idle) {
-        Debug::Log("Moving");
         return true;
     }
 
-    v2i robot_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
-    map.get_cell(robot_pos)->set_discovered(true);
+    v2i grid_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
+    map.get_cell(grid_pos)->set_discovered(true);
     Debug::DisplayMap(map);
 
     if (path_index >= path_size) {
@@ -147,6 +146,13 @@ bool MMarc::explore_loop() {
         if (path_size == -1) {
             return false;
         }
+    }
+
+    if (path[path_index-1] != grid_pos) {
+        Debug::Log("Positions did not match!");
+        path_size = 0;
+        path_index = 0;
+        return true;
     }
 
     v2i target = path[path_index];
@@ -191,6 +197,14 @@ bool MMarc::move_to_point_loop(v2i point) {
         if (path_size <= 0) {
             return false;
         }
+    }
+
+    v2i grid_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
+    if (path[path_index-1] != grid_pos) {
+        Debug::Log("Positions did not match!");
+        path_size = 0;
+        path_index = 0;
+        return true;
     }
 
     v2i target = path[path_index];
