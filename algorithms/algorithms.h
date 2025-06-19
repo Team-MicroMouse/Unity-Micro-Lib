@@ -26,6 +26,7 @@ public:
     virtual float GetTargetDistance() = 0;
     virtual void SetGyroNull() = 0;
 	virtual void SetRpm(int rpm) = 0;
+	virtual void Stop() = 0;
 	virtual void MoveDistance(float distance) = 0;
 	virtual void MoveToGridPos(v2i target, float cellSize) = 0;
 	virtual void RotateToAngle(int wantedAngle) = 0;
@@ -64,6 +65,7 @@ public:
 	float GetTargetDistance() override;
 	void SetGyroNull() override;
 	void SetRpm(int rpm) override;
+	void Stop() override;
 	void MoveDistance(float distance) override;
 	void MoveToGridPos(v2i target, float cellSize) override;
 	void RotateToAngle(int wantedAngle) override;

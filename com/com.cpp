@@ -125,6 +125,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	Microsim::SimMotorController_GetDistanceCovered = *reinterpret_cast<float (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetDistanceCovered"));
 	Microsim::SimMotorController_GetTargetDistance = *reinterpret_cast<float (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetTargetDistance"));
 	Microsim::SimMotorController_SetGyroNull = *reinterpret_cast<void (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_SetGyroNull"));
+	Microsim::SimMotorController_Stop = *reinterpret_cast<void (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_Stop"));
 	Microsim::SimMotorController_SetRpm = *reinterpret_cast<void (**)(uint32_t handle, int rpm)>(GetFunction("Microsim::SimMotorController_SetRpm"));
 	Microsim::SimMotorController_MoveDistance = *reinterpret_cast<void (**)(uint32_t handle, float distance)>(GetFunction("Microsim::SimMotorController_MoveDistance"));
 	Microsim::SimMotorController_MoveToGridPos = *reinterpret_cast<void (**)(uint32_t handle, v2i target, float cellSize)>(GetFunction("Microsim::SimMotorController_MoveToGridPos"));

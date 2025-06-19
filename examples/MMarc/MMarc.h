@@ -6,8 +6,8 @@
 class MMarc : IRobotController {
     enum RobotState { ResetMemory, Explore, Return, ResetPosition, WaitSpeedrun, Speedrun, WaitEndSpeedrun, ReturnAfterSpeedrun, ResetAfterSpeedrun, WaitForReset };
 
-    static constexpr v2i TARGET_POS = v2i(8, 8);
-    static constexpr v2i MAZE_SIZE = v2i(8, 8);
+    static constexpr v2i TARGET_POS = v2i(5, 5);
+    static constexpr v2i MAZE_SIZE = v2i(6, 6);
 
     IObjectDetectorAlgorithm* object_detector = nullptr;
     IMotorController* motor_controller = nullptr;

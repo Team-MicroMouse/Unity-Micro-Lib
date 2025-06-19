@@ -30,6 +30,7 @@ namespace Microsim {
 	inline uint32_t (*SimMotorController_GetCurrentState)(uint32_t handle);
 	inline float (*SimMotorController_GetTargetDistance)(uint32_t handle);
 	inline void (*SimMotorController_SetGyroNull)(uint32_t handle);
+	inline void (*SimMotorController_Stop)(uint32_t handle);
 	inline void (*SimMotorController_SetRpm)(uint32_t handle, int rpm);
 	inline void (*SimMotorController_MoveDistance)(uint32_t handle, float distance);
 	inline void (*SimMotorController_MoveToGridPos)(uint32_t handle, v2i target, float cellSize);

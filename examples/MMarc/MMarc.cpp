@@ -68,6 +68,7 @@ void MMarc::Loop(float dtf) {
         if (reset_angle_loop()) {
             break;
         }
+        motor_controller->Stop();
         state = WaitSpeedrun;
         break;
     case WaitSpeedrun:
@@ -172,7 +173,8 @@ bool MMarc::reset_angle_loop() {
         return true;
     }
 
-    if (abs((0 - robot_position.angle + 180) % 360 - 180) < 3) {
+    if (abs(abs(0 - robot_position.angle + 180) % 360 - 180) < 3) {
+        Debug::Log("Angle reached");
         return false;
     }
 
@@ -198,7 +200,7 @@ bool MMarc::move_to_point_loop(v2i point) {
         map.reset_highlights();
         path_size = astar->Pathfind(map, robot_position, point, path);
         path_index = 1;
-        if (path_size <= 0) {
+        if (path_size <= 1) {
             return false;
         }
     }

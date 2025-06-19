@@ -39,6 +39,10 @@ void SimulatorMotorController::SetRpm(int rpm) {
     Microsim::SimMotorController_SetRpm(handle, rpm);
 }
 
+void SimulatorMotorController::Stop() {
+    Microsim::SimMotorController_Stop(handle);
+}
+
 void SimulatorMotorController::MoveDistance(float distance) {
     Microsim::SimMotorController_MoveDistance(handle, distance);
 }
