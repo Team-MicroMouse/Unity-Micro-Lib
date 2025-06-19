@@ -137,16 +137,19 @@ bool MMarc::explore_loop() {
 
     v2i grid_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
     map.get_cell(grid_pos)->set_discovered(true);
-    Debug::DisplayMap(map);
 
     if (path_index >= path_size) {
         Debug::Log("Making new path");
+        map.reset_highlights();
         path_size = floodfill->Pathfind(map, robot_position, v2i::zero(), path);
+        Debug::DisplayMap(map);
         path_index = 1;
         if (path_size == -1) {
             return false;
         }
     }
+
+    Debug::DisplayMap(map);
 
     if (path[path_index-1] != grid_pos) {
         Debug::Log("Positions did not match!");
@@ -192,6 +195,7 @@ bool MMarc::move_to_point_loop(v2i point) {
     }
 
     if (path_index >= path_size) {
+        map.reset_highlights();
         path_size = astar->Pathfind(map, robot_position, point, path);
         path_index = 1;
         if (path_size <= 0) {

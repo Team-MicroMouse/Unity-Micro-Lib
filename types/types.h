@@ -120,7 +120,8 @@ struct Map {
     bool is_in_bounds(v2i position) const;
     MapCell* get_cell(v2i position) const;
 
-    void SetCell(v2i position, int value);
+    void set_cell(v2i position, int value) const;
+    void reset_highlights() const;
 };
 
 struct v2iHasher {
