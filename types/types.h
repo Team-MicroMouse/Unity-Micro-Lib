@@ -34,6 +34,7 @@ struct v2i {
     float length() const;
     v2i explode() const;
     v2i abs() const;
+    v2i rotated90deg(int steps) const;
 
     v2i operator+(v2i b) const;
     v2i operator-() const;
@@ -103,6 +104,7 @@ struct MapCell {
     bool is_wall_west() const;
     bool is_wall_in_dir(v2i dir) const;
     bool is_wall_highlight() const;
+    int wall_count() const;
 
     void set_discovered(bool value);
     void set_wall_north(bool value);

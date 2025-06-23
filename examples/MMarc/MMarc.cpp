@@ -2,6 +2,7 @@
 
 #include "../../com/com.h"
 #include "../Astar/Astar.h"
+#include "../Dijkstra/Dijkstra.h"
 #include "../Floodfill/Floodfill.h"
 #include "../ObjectDetection/Objectdetection.h"
 #include "../Tawd/Tawd.h"
@@ -10,7 +11,7 @@ void MMarc::Setup(Microsim::Robot robot, void* data) {
     object_detector = reinterpret_cast<IObjectDetectorAlgorithm*>(new Tawd());
     motor_controller = reinterpret_cast<IMotorController*>(new SimulatorMotorController("DefaultMotorController"));
     position_tracker = reinterpret_cast<IPositionTracker*>(new SimulatorPositionTracker("DefaultPositionTracker"));
-    astar = reinterpret_cast<IPathfinder*>(new Astar());
+    pathfind = reinterpret_cast<IPathfinder*>(new Dijkstra());
     floodfill = reinterpret_cast<IPathfinder*>(new Floodfill());
 
     map = Map {
@@ -21,7 +22,7 @@ void MMarc::Setup(Microsim::Robot robot, void* data) {
     object_detector->Setup(robot, nullptr);
     motor_controller->Setup(robot, nullptr);
     position_tracker->Setup(robot, nullptr);
-    astar->Setup(robot, nullptr);
+    pathfind->Setup(robot, nullptr);
     floodfill->Setup(robot, nullptr);
 
     path = static_cast<v2i*>(malloc(sizeof(v2i) * MAZE_SIZE.x * MAZE_SIZE.y));
@@ -125,7 +126,7 @@ void MMarc::Loop(float dtf) {
 MMarc::~MMarc() {
     delete object_detector;
     delete motor_controller;
-    delete astar;
+    delete pathfind;
     delete floodfill;
     free(map.cells);
     free(path);
@@ -198,7 +199,7 @@ bool MMarc::move_to_point_loop(v2i point) {
 
     if (path_index >= path_size) {
         map.reset_highlights();
-        path_size = astar->Pathfind(map, robot_position, point, path);
+        path_size = pathfind->Pathfind(map, robot_position, point, path);
         path_index = 1;
         if (path_size <= 1) {
             return false;

@@ -33,6 +33,16 @@ v2i v2i::abs() const {
     return v2i(std::abs(x), std::abs(y));
 }
 
+v2i v2i::rotated90deg(int steps) const {
+    steps = (steps % 4 + 4) % 4;
+    v2i newDir = v2i(x, y);
+    while (steps > 0) {
+        newDir = v2i(y, -x);
+        steps--;
+    }
+    return newDir;
+}
+
 v2i v2i::operator+(v2i b) const {
     return v2i(x + b.x, y + b.y);
 }
@@ -194,6 +204,10 @@ bool MapCell::is_wall_in_dir(v2i dir) const {
 }
 
 bool MapCell::is_wall_highlight() const { return (value & 1 << 5) == 1 << 5; }
+
+int MapCell::wall_count() const {
+    return is_wall_north() + is_wall_east() + is_wall_south() + is_wall_west();
+}
 
 void MapCell::set_discovered(bool value) {
     this->value = (this->value & ~(1 << 0)) | (value << 0);

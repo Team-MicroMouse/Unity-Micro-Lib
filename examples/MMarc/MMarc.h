@@ -12,7 +12,7 @@ class MMarc : IRobotController {
     IObjectDetectorAlgorithm* object_detector = nullptr;
     IMotorController* motor_controller = nullptr;
     IPositionTracker* position_tracker = nullptr;
-    IPathfinder* astar = nullptr;
+    IPathfinder* pathfind = nullptr;
     IPathfinder* floodfill = nullptr;
     Map map = {};
     RobotPosition robot_position;

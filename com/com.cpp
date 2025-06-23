@@ -5,6 +5,7 @@
 
 #include "../algorithms/algorithms.h"
 #include "../examples/Astar/Astar.h"
+#include "../examples/Dijkstra/Dijkstra.h"
 #include "../examples/MMarc/MMarc.h"
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
@@ -151,6 +152,7 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	register_object<Floodfill>(Plugin::Pathfinder, "Flood Fill");
 	register_object<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
 	register_object<Astar>(Plugin::Pathfinder, "Astar");
+	register_object<Dijkstra>(Plugin::Pathfinder, "Dijkstra");
 
 	/* Finishing up */
 
