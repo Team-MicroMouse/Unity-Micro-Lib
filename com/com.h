@@ -30,8 +30,10 @@ namespace Microsim {
 	inline uint32_t (*SimMotorController_GetCurrentState)(uint32_t handle);
 	inline float (*SimMotorController_GetTargetDistance)(uint32_t handle);
 	inline void (*SimMotorController_SetGyroNull)(uint32_t handle);
+	inline void (*SimMotorController_Stop)(uint32_t handle);
 	inline void (*SimMotorController_SetRpm)(uint32_t handle, int rpm);
 	inline void (*SimMotorController_MoveDistance)(uint32_t handle, float distance);
+	inline void (*SimMotorController_MoveToGridPos)(uint32_t handle, v2i target, float cellSize);
 	inline void (*SimMotorController_RotateToAngle)(uint32_t handle, int wantedAngle);
 	inline void (*SimMotorController_RotateDegrees)(uint32_t handle, int degrees);
 
@@ -43,29 +45,29 @@ namespace Microsim {
 };
 
 // Interacting with the engine
-namespace UnityEngine {
+namespace Debug {
 	inline void (*Log)(const char* message);
 	inline void (*Logi)(const char* message, int value);
 	inline void (*Logf)(const char* message, float value);
 	inline void (*LogV2i)(const char* message, v2i value);
 	inline void (*LogV2f)(const char* message, v2f value);
 
-	namespace Debug
-	{
-		inline void (*DrawRay2D)(v2f start, v2f target, float time, Color color);
-		inline void (*DrawRay3D)(v3f start, v3f target, float time, Color color);
-		inline void (*DrawLine2D)(v2f a, v2f b, float time, Color color);
-		inline void (*DrawLine3D)(v3f a, v3f b, float time, Color color);
-	}
+	inline void (*DrawRay2D)(v2f start, v2f target, float time, Color color);
+	inline void (*DrawRay3D)(v3f start, v3f target, float time, Color color);
+	inline void (*DrawLine2D)(v2f from, v2f to, float time, Color color);
+	inline void (*DrawLine3D)(v3f from, v3f to, float time, Color color);
+
+	inline void (*DisplayMap)(Map map);
+	inline void (*ClearMap)();
 };
 
 
 // Interacting with the plugin
 namespace Plugin {
 	enum NativeObjectType : uint32_t {
-		ObjectDetector,
-		RobotController,
-		Pathfinder
+		ObjectDetector = 0,
+		RobotController = 1,
+		Pathfinder = 2
 	};
 
 	typedef std::function<void*()> CreateNativeObject;
@@ -95,7 +97,7 @@ namespace Microsim {
 	DLLEXPORT void RobotController_Loop(IRobotController* ptr, float dtf);
 
 	DLLEXPORT void ObjectDetector_Setup(IObjectDetectorAlgorithm* ptr, uint32_t robotHandle, void* data);
-	DLLEXPORT void ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, int* map, v2i mapSize);
+	DLLEXPORT void ObjectDetector_Process(IObjectDetectorAlgorithm* ptr, Map map, RobotPosition robot_position);
 
 	DLLEXPORT void Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, void* data);
 	DLLEXPORT int Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2i target, v2i* path);

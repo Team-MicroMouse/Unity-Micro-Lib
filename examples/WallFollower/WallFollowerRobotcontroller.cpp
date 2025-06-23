@@ -50,7 +50,7 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
             targetPos = (targetGridPos * 180).roundToV2i();
             targetDir = targetPos - robotPosition.position;
             motorController->RotateDegrees(static_cast<int>(std::round(std::atan2(targetDir.y, targetDir.x) * DEG2RAD)));
-            UnityEngine::Log("StartRotate");
+            Debug::Log("StartRotate");
             state = StartRotate;
             break;
 
@@ -59,7 +59,7 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
                 targetPos = (targetGridPos * 180).roundToV2i();
                 targetDir = targetPos - robotPosition.position;
                 motorController->MoveDistance(targetDir.length());
-                UnityEngine::Log("StartMoving");
+                Debug::Log("StartMoving");
                 state = StartMoving;
             }
             break;
@@ -67,7 +67,7 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
         case StartMoving:
             if (motorController->GetMoveState() == IMotorController::Idle) {
                 motorController->RotateToAngle(static_cast<int>(round(robotPosition.angle / 90)) * 90);
-                UnityEngine::Log("Moving");
+                Debug::Log("Moving");
                 state = Moving;
             }
             break;
@@ -78,14 +78,14 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
                 targetPos = ((gridPos + v2f::fromAngle(robotPosition.angle)) * 180).roundToV2i();
                 targetDir = targetPos - robotPosition.position;
                 motorController->MoveDistance(targetDir.length());
-                UnityEngine::Log("Moving");
+                Debug::Log("Moving");
                 state = Moving;
             }
             break;
 
         case Moving:
             if (motorController->GetMoveState() == IMotorController::Idle) {
-                UnityEngine::Log("Idle");
+                Debug::Log("Idle");
                 state = Idle;
             }
             break;
@@ -99,41 +99,41 @@ void WallFollowerRobotcontroller::Loop(float dtf) {
 
             if (fwd == 0 || fwd > 60) {
                 targetPos = (gridPos + v2f::fromAngle(robotPosition.angle).explode().normalize()).roundToV2i() * 180;
-                UnityEngine::Log("Forward");
+                Debug::Log("Forward");
             } else {
                 int r = static_cast<int>(round(static_cast<double>(rand()) / RAND_MAX));
                 // probably possible in 1 calculation w/0 any statements
                 if (r == 0) {
                     if (lhs == 0 || lhs < 60) {
                         targetPos = (gridPos + v2f::fromAngle(robotPosition.angle - 90).explode().normalize()).roundToV2i() * 180;
-                        UnityEngine::Log("-90");
+                        Debug::Log("-90");
                     } else if (rhs == 0 || rhs < 60) {
                         targetPos = (gridPos + v2f::fromAngle(robotPosition.angle + 90).explode().normalize()).roundToV2i() * 180;
-                        UnityEngine::Log("+90");
+                        Debug::Log("+90");
                     } else {
                         targetPos = (gridPos + v2f::fromAngle(robotPosition.angle + 180).explode().normalize()).roundToV2i() * 180;
-                        UnityEngine::Log("+180");
+                        Debug::Log("+180");
                     }
                 } else if (r == 1) {
                     if (rhs == 0 || rhs < 60) {
                         targetPos = (gridPos + v2f::fromAngle(robotPosition.angle + 90).explode().normalize()).roundToV2i() * 180;
-                        UnityEngine::Log("+90");
+                        Debug::Log("+90");
                     } else if (lhs == 0 || lhs < 60) {
                         targetPos = (gridPos + v2f::fromAngle(robotPosition.angle - 90).explode().normalize()).roundToV2i() * 180;
-                        UnityEngine::Log("-90");
+                        Debug::Log("-90");
                     } else {
                         targetPos = (gridPos + v2f::fromAngle(robotPosition.angle + 180).explode().normalize()).roundToV2i() * 180;
-                        UnityEngine::Log("+180");
+                        Debug::Log("+180");
                     }
                 }
             }
 
             targetDir = targetPos - robotPosition.position;
-            UnityEngine::Debug::DrawRay2D(robotPosition.position.toV2f() / 1000.0, targetDir.toV2f() / 1000.0, 2, Color::green());
-            UnityEngine::Debug::DrawRay3D(targetPos.toV2f().toFlatV3f() / 1000.0, v3f(0,1,0), 2, Color::red());
+            Debug::DrawRay2D(robotPosition.position.toV2f() / 1000.0, targetDir.toV2f() / 1000.0, 2, Color::green());
+            Debug::DrawRay3D(targetPos.toV2f().toFlatV3f() / 1000.0, v3f(0,1,0), 2, Color::red());
             motorController->RotateDegrees(static_cast<int>(std::round(std::atan2(targetDir.y, targetDir.x) * RAD2DEG)));
-            UnityEngine::LogV2i("Target Dir:", targetDir);
-            UnityEngine::Log("Rotating");
+            Debug::LogV2i("Target Dir:", targetDir);
+            Debug::Log("Rotating");
             state = Rotating;
             break;
     }

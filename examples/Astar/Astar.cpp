@@ -21,7 +21,6 @@ int Astar::Pathfind(Map map, RobotPosition robot_position, v2i target, v2i* path
     node_datas.insert({ start_pos, NodeData(start_pos, start_pos, 0, cost_g, cost_g) });
     nodes_to_process.push_back(&node_datas[start_pos]);
 
-    int i = 0;
     while (!nodes_to_process.empty()) {
         NodeData* node_data = nodes_to_process.front();
 

@@ -4,6 +4,7 @@
 
 #ifndef MATH_H
 #define MATH_H
+#define CELL_WALL 1
 #include <cstdint>
 #include <functional>
 #include <math.h>
@@ -24,19 +25,25 @@ struct v2i {
     static v2i right();
     static v2i down();
     static v2i left();
+    static v2i zero();
+    static v2i one();
 
     v2f toV2f() const;
 
     int lengthSq() const;
     float length() const;
     v2i explode() const;
+    v2i abs() const;
+    v2i rotated90deg(int steps) const;
 
     v2i operator+(v2i b) const;
+    v2i operator-() const;
     v2i operator-(v2i b) const;
     v2i operator*(int b) const;
     v2i operator/(int b) const;
     v2f operator/(float b) const;
     bool operator==(v2i b) const;
+    v2i operator%(int b) const;
 };
 
 struct v2f {
@@ -51,6 +58,9 @@ struct v2f {
     v2i roundToV2i() const;
     v2f explode() const;
     v2f normalize() const;
+    float dot(v2f rhs) const;
+    float det(v2f rhs) const;
+    float signedAngle(v2f rhs) const;
 
     bool operator==(const v2f & b) const = default;
     v2f operator+(const v2i & b) const;
@@ -58,6 +68,7 @@ struct v2f {
     v2f operator-(const v2f & b) const;
     v2f operator*(float b) const;
     v2f operator/(float b) const;
+    v2f rotated(float angle_rad) const;
 };
 
 struct v3i { int32_t x,y,z; };
@@ -65,6 +76,7 @@ struct v3f
 {
     float x,y,z;
     v3f operator/(double b) const;
+    v3f operator+(v3f b) const;
 };
 struct Guid { uint64_t a, b; };
 
@@ -90,14 +102,16 @@ struct MapCell {
     bool is_wall_east() const;
     bool is_wall_south() const;
     bool is_wall_west() const;
-    bool is_wall_highlight() const;
     bool is_wall_in_dir(v2i dir) const;
+    bool is_wall_highlight() const;
+    int wall_count() const;
 
     void set_discovered(bool value);
     void set_wall_north(bool value);
     void set_wall_east(bool value);
     void set_wall_south(bool value);
     void set_wall_west(bool value);
+    void set_wall_in_dir(v2i dir, bool value);
     void set_wall_highlight(bool value);
 };
 
@@ -107,6 +121,9 @@ struct Map {
 
     bool is_in_bounds(v2i position) const;
     MapCell* get_cell(v2i position) const;
+
+    void set_cell(v2i position, int value) const;
+    void reset_highlights() const;
 };
 
 struct v2iHasher {

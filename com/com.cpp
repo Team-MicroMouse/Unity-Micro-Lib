@@ -5,13 +5,16 @@
 
 #include "../algorithms/algorithms.h"
 #include "../examples/Astar/Astar.h"
+#include "../examples/Dijkstra/Dijkstra.h"
+#include "../examples/MMarc/MMarc.h"
 #include "../examples/Floodfill/Floodfill.h"
 #include "../examples/FloodfillStack/FloodfillStack.h"
-#include "../examples/SimpleObjectDetector/SimpleObjectDetector.h"
+#include "../examples/ObjectDetection/Objectdetection.h"
+#include "../examples/Tawd/Tawd.h"
+#include "../examples/Tawd/Tawd.h"
 #include "../examples/WallFollower/WallFollowerRobotcontroller.h"
 #include "../microsim/microsim.h"
 
-class FloodfillStack;
 Plugin::CreateNativeObject* nativeObjectConstructorList;
 int nativeObjectListPtr;
 
@@ -25,24 +28,24 @@ void Plugin::Plugin_DeleteObject(void* handle) {
 
 void Microsim::ObjectDetector_Setup(IObjectDetectorAlgorithm* algorithm, uint32_t robotHandle, void* data) {
 	if (algorithm == nullptr) {
-		UnityEngine::Log("Nullptr in setup");
+		Debug::Log("Nullptr in setup");
 	} else {
 		const Robot robot = { robotHandle };
 		algorithm->Setup(robot, data);
 	}
 }
 
-void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, int *map, v2i mapSize) {
+void Microsim::ObjectDetector_Process(IObjectDetectorAlgorithm* algorithm, Map map, RobotPosition robot_position) {
 	if (algorithm == nullptr) {
-		UnityEngine::Log("Nullptr in ObjectDetector_Process");
+		Debug::Log("Nullptr in ObjectDetector_Process");
 	} else {
-		algorithm->Process(map, mapSize);
+		algorithm->Process(map, robot_position);
 	}
 }
 
 void Microsim::Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, void* data) {
 	if (algorithm == nullptr) {
-		UnityEngine::Log("Nullptr in Pathfinder_setup");
+		Debug::Log("Nullptr in Pathfinder_setup");
 	} else {
 		algorithm->Setup(Robot { robotHandle }, data);
 	}
@@ -50,7 +53,7 @@ void Microsim::Pathfinder_Setup(IPathfinder* algorithm, uint32_t robotHandle, vo
 
 int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition position, v2i target, v2i* path) {
 	if (ptr == nullptr) {
-		UnityEngine::Log("Nullptr in Pathfinder_Pathfind");
+		Debug::Log("Nullptr in Pathfinder_Pathfind");
 		return -1;
 	} else {
 		return ptr->Pathfind(map, position, target, path);
@@ -59,7 +62,7 @@ int Microsim::Pathfinder_Pathfind(IPathfinder* ptr, Map map, RobotPosition posit
 
 void Microsim::RobotController_Setup(IRobotController* robotController, uint32_t robotHandle, void* data) {
 	if (robotController == nullptr) {
-		UnityEngine::Log("Nullptr in RobotController_Setup");
+		Debug::Log("Nullptr in RobotController_Setup");
 	} else {
 		const Robot robot = { robotHandle };
 		robotController->Setup(robot, data);
@@ -68,13 +71,13 @@ void Microsim::RobotController_Setup(IRobotController* robotController, uint32_t
 
 void Microsim::RobotController_Loop(IRobotController* robotController, float dtf) {
 	if (robotController == nullptr) {
-		UnityEngine::Log("Nullptr in RobotController_Process");
+		Debug::Log("Nullptr in RobotController_Process");
 	} else {
 		robotController->Loop(dtf);
 	}
 }
 
-template<typename T> void registerObject(const Plugin::NativeObjectType type, const char* name) {
+template<typename T> void register_object(const Plugin::NativeObjectType type, const char* name) {
 	const Plugin::CreateNativeObject fn = [&] { return new T(); };
 	const uint32_t idx = nativeObjectListPtr;
 	nativeObjectConstructorList[nativeObjectListPtr] = fn;
@@ -93,18 +96,20 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 
 	/* Registering functions */
 
-	UnityEngine::Log = *reinterpret_cast<void (**)(const char *)>(GetFunction("UnityEngine::Log"));
-	UnityEngine::Log("Gathering Simulator Functions");
+	Debug::Log = *reinterpret_cast<void (**)(const char *)>(GetFunction("Debug::Log"));
+	Debug::Log("Gathering Simulator Functions");
 
-	UnityEngine::Logi = *reinterpret_cast<void (**)(const char *, int)>(GetFunction("UnityEngine::Logi"));
-	UnityEngine::Logf = *reinterpret_cast<void (**)(const char *, float)>(GetFunction("UnityEngine::Logf"));
-	UnityEngine::LogV2f = *reinterpret_cast<void (**)(const char *, v2f)>(GetFunction("UnityEngine::LogV2f"));
-	UnityEngine::LogV2i = *reinterpret_cast<void (**)(const char *, v2i)>(GetFunction("UnityEngine::LogV2i"));
+	Debug::Logi = *reinterpret_cast<void (**)(const char *, int)>(GetFunction("Debug::Logi"));
+	Debug::Logf = *reinterpret_cast<void (**)(const char *, float)>(GetFunction("Debug::Logf"));
+	Debug::LogV2f = *reinterpret_cast<void (**)(const char *, v2f)>(GetFunction("Debug::LogV2f"));
+	Debug::LogV2i = *reinterpret_cast<void (**)(const char *, v2i)>(GetFunction("Debug::LogV2i"));
 
-	UnityEngine::Debug::DrawLine2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay2D"));
-	UnityEngine::Debug::DrawLine3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawRay3D"));
-	UnityEngine::Debug::DrawRay2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine2D"));
-	UnityEngine::Debug::DrawRay3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("UnityEngine::Debug::DrawLine3D"));
+	Debug::DrawLine2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("Debug::DrawLine2D"));
+	Debug::DrawLine3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("Debug::DrawLine3D"));
+	Debug::DrawRay2D = *reinterpret_cast<void (**)(v2f, v2f, float, Color)>(GetFunction("Debug::DrawRay2D"));
+	Debug::DrawRay3D = *reinterpret_cast<void (**)(v3f, v3f, float, Color)>(GetFunction("Debug::DrawRay3D"));
+	Debug::DisplayMap = *reinterpret_cast<void (**)(Map map)>(GetFunction("Debug::DisplayMap"));
+	Debug::ClearMap = *reinterpret_cast<void (**)()>(GetFunction("Debug::ClearMap"));
 
 	Plugin::RegisterType = *reinterpret_cast<void (**)(Plugin::NativeObjectFactory)>(GetFunction("Plugin::RegisterType"));
 
@@ -121,8 +126,10 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 	Microsim::SimMotorController_GetDistanceCovered = *reinterpret_cast<float (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetDistanceCovered"));
 	Microsim::SimMotorController_GetTargetDistance = *reinterpret_cast<float (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_GetTargetDistance"));
 	Microsim::SimMotorController_SetGyroNull = *reinterpret_cast<void (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_SetGyroNull"));
+	Microsim::SimMotorController_Stop = *reinterpret_cast<void (**)(uint32_t handle)>(GetFunction("Microsim::SimMotorController_Stop"));
 	Microsim::SimMotorController_SetRpm = *reinterpret_cast<void (**)(uint32_t handle, int rpm)>(GetFunction("Microsim::SimMotorController_SetRpm"));
 	Microsim::SimMotorController_MoveDistance = *reinterpret_cast<void (**)(uint32_t handle, float distance)>(GetFunction("Microsim::SimMotorController_MoveDistance"));
+	Microsim::SimMotorController_MoveToGridPos = *reinterpret_cast<void (**)(uint32_t handle, v2i target, float cellSize)>(GetFunction("Microsim::SimMotorController_MoveToGridPos"));
 	Microsim::SimMotorController_RotateToAngle = *reinterpret_cast<void (**)(uint32_t handle, int wantedAngle)>(GetFunction("Microsim::SimMotorController_RotateToAngle"));
 	Microsim::SimMotorController_RotateDegrees = *reinterpret_cast<void (**)(uint32_t handle, int degrees)>(GetFunction("Microsim::SimMotorController_RotateDegrees"));
 
@@ -134,17 +141,22 @@ void Init(uint8_t* (*getFunction)(const char* name)) {
 
 	/* Registering objects */
 
-	UnityEngine::Log("Registering Native Objects");
+	Debug::Log("Registering Native Objects");
 
-	registerObject<SimpleObjectDetector>(Plugin::ObjectDetector, "Simple Object Detector");
-	registerObject<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
-	registerObject<Floodfill>(Plugin::Pathfinder, "Flood Fill");
-	registerObject<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
-	registerObject<Astar>(Plugin::Pathfinder, "Astar");
+	register_object<MMarc>(Plugin::RobotController, "MMarc");
+	register_object<WallFollowerRobotcontroller>(Plugin::RobotController, "Simple Robot Controller");
+
+	register_object<Objectdetection>(Plugin::ObjectDetector, "Objectdetection");
+	register_object<Tawd>(Plugin::ObjectDetector, "Tawd");
+
+	register_object<Floodfill>(Plugin::Pathfinder, "Flood Fill");
+	register_object<FloodfillStack>(Plugin::Pathfinder, "Flood Fill Stack");
+	register_object<Astar>(Plugin::Pathfinder, "Astar");
+	register_object<Dijkstra>(Plugin::Pathfinder, "Dijkstra");
 
 	/* Finishing up */
 
-	UnityEngine::Log("Successfully loaded C++ Test Plugin");
+	Debug::Log("Successfully loaded C++ Test Plugin");
 }
 
 void Destroy() {
