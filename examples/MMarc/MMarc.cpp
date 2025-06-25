@@ -36,17 +36,18 @@ void MMarc::Setup(Microsim::Robot robot, void* data) {
 }
 
 void MMarc::Loop(float dtf) {
-    Debug::Log("-- begin --");
+    // Debug::Log("-- begin --");
 
     position_tracker->Process(&robot_position);
     object_detector->Process(map, robot_position);
-    Debug::LogV2i("Grid Pos", (robot_position.position / CELL_SIZE_F).roundToV2i());
-    Debug::DrawRay3D(
-        ((robot_position.position / CELL_SIZE_F).roundToV2i().toV2f() * CELL_SIZE_F / 1000).toFlatV3f(),
-        v3f(0, 1, 0), 0, Color::blue());
 
-    Debug::Logi("State:", state);
-    Debug::Logi("Motor:", motor_controller->GetMoveState());
+    // Debug::LogV2i("Grid Pos", (robot_position.position / CELL_SIZE_F).roundToV2i());
+    // Debug::DrawRay3D(
+    //     ((robot_position.position / CELL_SIZE_F).roundToV2i().toV2f() * CELL_SIZE_F / 1000).toFlatV3f(),
+    //     v3f(0, 1, 0), 0, Color::blue());
+    //
+    // Debug::Logi("State:", state);
+    // Debug::Logi("Motor:", motor_controller->GetMoveState());
 
     switch (state) {
     case ResetMemory:
@@ -120,7 +121,7 @@ void MMarc::Loop(float dtf) {
     }
 
     motor_controller->UpdateMovement(dtf, robot_position);
-    Debug::Log("-- end --");
+    // Debug::Log("-- end --");
 }
 
 MMarc::~MMarc() {
@@ -141,7 +142,7 @@ bool MMarc::explore_loop() {
     map.get_cell(grid_pos)->set_discovered(true);
 
     if (path_index >= path_size) {
-        Debug::Log("Making new path");
+        // Debug::Log("Making new path");
         map.reset_highlights();
         path_size = floodfill->Pathfind(map, robot_position, v2i::zero(), path);
         Debug::DisplayMap(map);
@@ -151,19 +152,19 @@ bool MMarc::explore_loop() {
         }
     }
 
-    Debug::DisplayMap(map);
+    // Debug::DisplayMap(map);
 
     if (path[path_index-1] != grid_pos) {
-        Debug::Log("Positions did not match!");
+        // Debug::Log("Positions did not match!");
         path_size = 0;
         path_index = 0;
         return true;
     }
 
     v2i target = path[path_index];
-    Debug::LogV2i("Moving to new position ", target);
-    Debug::Logi("Path Size", path_size);
-    Debug::Logi("Path Index", path_index);
+    // Debug::LogV2i("Moving to new position ", target);
+    // Debug::Logi("Path Size", path_size);
+    // Debug::Logi("Path Index", path_index);
     motor_controller->MoveToGridPos(target, CELL_SIZE_F);
     path_index++;
     return true;
@@ -175,7 +176,7 @@ bool MMarc::reset_angle_loop() {
     }
 
     if (abs(abs(0 - robot_position.angle + 180) % 360 - 180) < 3) {
-        Debug::Log("Angle reached");
+        // Debug::Log("Angle reached");
         return false;
     }
 
@@ -208,7 +209,7 @@ bool MMarc::move_to_point_loop(v2i point) {
 
     v2i grid_pos = (robot_position.position / CELL_SIZE_F).roundToV2i();
     if (path[path_index-1] != grid_pos) {
-        Debug::Log("Positions did not match!");
+        // Debug::Log("Positions did not match!");
         path_size = 0;
         path_index = 0;
         return true;
